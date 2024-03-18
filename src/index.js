@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
+const router = require("./router/router");
 const app = express();
 
 const options = {
@@ -16,6 +17,7 @@ const options = {
         servers: [
             {
                 url: 'https://lands-be.onrender.com'
+                // url: 'http://localhost:8080'
             }
         ]
     },
@@ -29,5 +31,7 @@ app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json);
+
+app.use("/", router);
 
 module.exports = app;
