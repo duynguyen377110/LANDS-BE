@@ -1,4 +1,5 @@
 "use strict"
+const Instance = require("./src/utils/util-database");
 const app = require("./src/index");
 const environment = require("./environment");
 
