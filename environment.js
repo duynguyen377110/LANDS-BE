@@ -7,17 +7,22 @@ const environment = {
                     'http://localhost:4200',
                     'http://localhost:8080'
                 ]
+            },
+            swagger: {
+                sersers: 'http://localhost:8080'
             }
         },
         pro: {
-
+            swagger: {
+                sersers: 'https://lands-be.onrender.com'
+            }
         }
     },
     port: 8080
 }
 
-const env = environment.model.dev;
+const env = environment.model.pro;
 
 module.exports = environment;
 
-module.exports.model = env;
+module.exports.environment = env;
