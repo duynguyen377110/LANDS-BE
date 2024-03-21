@@ -23,7 +23,7 @@ const environment = {
     port: 8080
 }
 
-const env = environment.model.pro;
+const env = environment.model.dev;
 
 module.exports = environment;
 module.exports.environment = env;
