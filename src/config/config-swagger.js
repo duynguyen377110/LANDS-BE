@@ -22,6 +22,9 @@ class ConfigSwagger {
                 paths: {
                     '/api/v1/common-access/signup': {
                         ...configConstantSwagger.commonAccessSignup
+                    },
+                    '/api/v1/admin-category': {
+                        ...configConstantSwagger.adminNewCategory
                     }
                 },
             },

@@ -32,6 +32,38 @@ const configConstantSwagger = {
                 }
             }
         }
+    },
+
+    adminNewCategory: {
+        post: {
+            summary: 'Post new category API',
+            description: 'Endpoint admin create category',
+            requestBody: {
+                require: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                data: {
+                                    type: 'string'
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                '200': {
+                    description: 'Success create category',
+                    content: {
+                        'application/json': {
+                            data: {status: true, message: 'Create category success'}
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
