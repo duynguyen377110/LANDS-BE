@@ -12,6 +12,7 @@ const ConfigSwagger = require("./config/config-swagger");
 const app = express();
 
 app.use(MiddlewareCors.cors);
+
 const swaggerExpec = swaggerJsDoc(ConfigSwagger.definitial());
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerExpec));
 

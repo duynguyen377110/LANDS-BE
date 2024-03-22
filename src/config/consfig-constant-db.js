@@ -1,8 +1,9 @@
 "use strict"
 
 const configConstantDb = {
+    category: 'categories',
     role: 'roles',
-    user: 'users'
+    user: 'users',
 }
 
 module.exports = configConstantDb;
