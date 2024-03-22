@@ -46,7 +46,8 @@ const configConstantSwagger = {
                             type: 'object',
                             properties: {
                                 data: {
-                                    type: 'string'
+                                    title: 'string',
+                                    description: 'string'
                                 }
                             }
                         }
