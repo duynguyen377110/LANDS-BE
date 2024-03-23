@@ -5,12 +5,21 @@ class ServiceCategory {
 
     constructor() { }
 
+    async getAllCategory() {
+        try {
+            return await ModelCategory.find().lean();
+
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async createCategory(infor = {}) {
         try {
             return await ModelCategory.create({
                 title: infor.title,
-                description: infor.description
+                description: infor.description,
+                thumbs: infor.thumbs
             })
 
         } catch (error) {

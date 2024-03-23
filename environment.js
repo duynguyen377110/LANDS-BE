@@ -2,6 +2,12 @@
 const environment = {
     model: {
         dev: {
+            cloudinary: {
+                name: 'ditc3z3gj',
+                key: 651235569212581,
+                secret:'RfddO2mXOq20VwROSDjFLu3N8h4',
+                directory: 'lands-test'
+            },
             cors: {
                 origins: [
                     'http://localhost:4200',
@@ -14,6 +20,12 @@ const environment = {
             db: 'mongodb://127.0.0.1:27017/lands'
         },
         pro: {
+            cloudinary: {
+                name: 'ditc3z3gj',
+                key: 651235569212581,
+                secret:'RfddO2mXOq20VwROSDjFLu3N8h4',
+                directory: 'lands'
+            },
             cors: {
                 origins: [
                     'https://lands-be.onrender.com',
