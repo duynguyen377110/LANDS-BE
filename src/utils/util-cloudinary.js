@@ -1,7 +1,7 @@
 "use strict"
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { v2 } from "cloudinary";
-import config from "../config/config.js";
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const { v2 } = require("cloudinary");
+const environment = require("../../environment").environment;
 const cloudinary = v2;
 
 
@@ -10,9 +10,9 @@ class Cloudinary {
 
     constructor() {
         cloudinary.config({
-            cloud_name: config.cloudinary.name,
-            api_key: config.cloudinary.key,
-            api_secret: config.cloudinary.secret,
+            cloud_name: environment.cloudinary.name,
+            api_key: environment.cloudinary.key,
+            api_secret: environment.cloudinary.secret,
         })
     }
 
@@ -24,7 +24,7 @@ class Cloudinary {
             cb(null, file.originalname); 
         },
         params: {
-            folder: config.cloudinary.directory,
+            folder: environment.cloudinary.directory,
         }
     })
 
@@ -66,4 +66,4 @@ class Cloudinary {
     }
 }
 
-export default new Cloudinary();
+module.exports = new Cloudinary();

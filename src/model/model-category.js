@@ -11,7 +11,13 @@ const ModelCategory = new Schema({
     description: {
         type: String,
         default: ''
-    }
+    },
+    thumbs: [
+        {
+            type: String,
+            default: ''
+        }
+    ]
 }, {
     collection : configConstantDb.category,
     timestamps: true

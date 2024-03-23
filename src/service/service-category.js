@@ -18,7 +18,8 @@ class ServiceCategory {
         try {
             return await ModelCategory.create({
                 title: infor.title,
-                description: infor.description
+                description: infor.description,
+                thumbs: infor.thumbs
             })
 
         } catch (error) {
