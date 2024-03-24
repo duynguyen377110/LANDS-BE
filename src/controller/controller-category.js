@@ -31,6 +31,17 @@ class ControllerCategory {
         if(!category) return res.status(500).json({status: false, message: 'Create category unsuccess'});
         return res.status(200).json({status: true, message: 'Create category success'});
     }
+
+
+    async deleteCategory(req, res, next) {
+        let { id } = req.body;
+        let { status } = await Servicecategory.deleteCategory({id});
+        
+        if(!status) {
+            return res.status(400).json({status: false, message: 'Delete category unsuccess'});
+        }
+        return res.status(200).json({status: true, message: 'Delete category success'});
+    }
 }
 
 module.exports = new ControllerCategory();

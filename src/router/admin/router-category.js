@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/amount', ControllerCategory.getAmount)
 router.post('/new', ControllerCategory.createCategory);
+router.delete('/', ControllerCategory.deleteCategory);
 
 module.exports = router;
