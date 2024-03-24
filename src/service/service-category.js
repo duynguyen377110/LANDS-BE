@@ -5,6 +5,14 @@ class ServiceCategory {
 
     constructor() { }
 
+    async getAmount() {
+        try {
+            return await ModelCategory.find().count().lean();
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async getAllCategory() {
         try {
             return await ModelCategory.find().lean();

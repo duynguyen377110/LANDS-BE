@@ -2,10 +2,16 @@
 const express = require('express');
 const router = express.Router();
 const CommonRouterAccess = require("./common/common-router-access");
+
+// CATEGORY
+const CommonRouterCategory = require("./common/common-router-category");
 const AdminRouterCategory = require("./admin/router-category");
 const MobileRouterCategory = require("./mobile/router-category");
 
 router.use('/common-access', CommonRouterAccess);
+
+// CATEGORY
+router.use("/common/category", CommonRouterCategory);
 router.use('/admin/category', AdminRouterCategory);
 router.use('/mobile/category', MobileRouterCategory);
 

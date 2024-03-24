@@ -5,6 +5,11 @@ class ControllerCategory {
 
     constructor() { }
 
+    async getAmount(req, res, next) {
+        let count = await Servicecategory.getAmount();
+        return res.status(200).json({status: true, count});
+    }
+
     async getAllCategory(req, res, next) {
         let categories = await Servicecategory.getAllCategory();
         return res.status(200).json({status: true, categories});
