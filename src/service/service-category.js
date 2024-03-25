@@ -24,6 +24,23 @@ class ServiceCategory {
         }
     }
 
+    /**
+     * GET CATEGORY BY ID
+     * @param {*} infor 
+     */
+    async getCategoryById(infor = {}) {
+        try {
+            return await ModelCategory.findById(infor.id).lean();
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * FIND CATEGORY BY ID
+     * @param {*} id 
+     * @returns 
+     */
     async findCategoryById(id) {
         try {
             return await ModelCategory.findById(id);
@@ -33,6 +50,11 @@ class ServiceCategory {
         }
     }
 
+    /**
+     * CREATE CATEGORY
+     * @param {*} infor 
+     * @returns 
+     */
     async createCategory(infor = {}) {
         try {
             return await ModelCategory.create({
@@ -40,6 +62,32 @@ class ServiceCategory {
                 description: infor.description,
                 thumbs: infor.thumbs
             })
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    /**
+     * UPDATE CATEGORY
+     * @param {*} infor 
+     * @returns 
+     */
+    async updateCategory(infor = {}) {
+        try {
+            let category = await this.findCategoryById(infor.id);
+
+            if(infor.thumbs.length) {
+                infor.thumbs.forEach((thumb) => {
+                    category.thumbs.unshift(thumb);
+                })
+            }
+
+            category.title = infor.title;
+            category.description = infor.description;
+            await category.save();
+            return {status: true, message: 'Update category success'};
 
         } catch (error) {
             throw error;
