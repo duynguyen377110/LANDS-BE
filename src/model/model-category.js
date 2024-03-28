@@ -17,6 +17,12 @@ const ModelCategory = new Schema({
             type: String,
             default: ''
         }
+    ],
+    products: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: configConstantDb.product
+        }
     ]
 }, {
     collection : configConstantDb.category,

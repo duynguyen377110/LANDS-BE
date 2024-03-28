@@ -28,6 +28,19 @@ class Cloudinary {
         }
     })
 
+    configStorage = (directory) => {
+        return new CloudinaryStorage({
+            cloudinary,
+            allowedFormats: ['jpeg', 'jpg', 'png'],
+            filename: function (req, file, cb) {
+                cb(null, file.originalname); 
+            },
+            params: {
+                folder: `${environment.cloudinary.directory}/${directory}`,
+            }
+        })
+    }
+
     // KIEN TRA FILE TON TAI TREN CLOUD
     async exists(public_id) {
         try {
