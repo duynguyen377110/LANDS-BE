@@ -111,7 +111,7 @@ class ServiceCategory {
                     // THUC HIEN KIEM TRA XEM FILE CO TON TAI TREN CLOUD
                     let {status, result } = await UtilCloudinary.exists(`${environment.cloudinary.directory}/${imageName}`);
                     if(status) {
-                        images.push(`${environment.cloudinary.directory}/${imageName}`);
+                        images.push(`${environment.cloudinary.directory}/categories/${imageName}`);
                     }
                 }
                 
