@@ -30,7 +30,14 @@ class ServiceCategory {
      */
     async getCategoryById(infor = {}) {
         try {
-            return await ModelCategory.findById(infor.id).lean();
+            return await ModelCategory
+                        .findById(infor.id)
+                        .populate([
+                            {
+                                path: 'products'
+                            }
+                        ])
+                        .lean();
         } catch (error) {
             throw error;
         }
