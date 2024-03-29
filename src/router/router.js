@@ -20,7 +20,10 @@ router.use('/admin/category',
 router.use('/mobile/category', MobileRouterCategory);
 
 // PRODUCT
+const CommonRouterProduct = require("./common/common-router-product");
 const AdminRouterProduct = require("./admin/admin-router-product");
+
+router.use("/common/product", CommonRouterProduct);
 router.use('/admin/product',
     multer({storage: UtilCloudinary.configStorage('products')}).any('photos'),
     AdminRouterProduct);
