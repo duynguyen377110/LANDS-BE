@@ -1,9 +1,8 @@
 "use strict"
-const express = require("express");
+const express = require('express');
 const ControllerRole = require("../../controller/controller-role");
 const router = express.Router();
 
-router.post("/", ControllerRole.createRole);
-router.delete('/', ControllerRole.deleteRole);
+router.get("/all", ControllerRole.getAllRole);
 
 module.exports = router;

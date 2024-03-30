@@ -6,6 +6,18 @@ class ControllerRole {
     constructor() { }
 
     /**
+     * GET ALL ROLE
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getAllRole(req, res, next) {
+        let roles = await ServiceRole.getAllRole();
+        return res.status(200).json({status: true, message: 'Get all role', roles});
+    }
+
+    /**
      * CREATE ROLE
      * @param {*} req 
      * @param {*} res 
@@ -21,6 +33,22 @@ class ControllerRole {
         }
 
         return res.status(200).json({status: 200, message: 'Create role success'});
+    }
+
+    /**
+     * DELETE ROLE
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async deleteRole(req, res, next) {
+        let { id } = req.body;
+        let { status } = await ServiceRole.deleteRole({id});
+        if(!status) {
+            return res.status(400).json({status: false, message: 'Delete role unsuccess'});
+        }
+        return res.status(200).json({status: true, message: 'Delete role success'});
     }
 }
 

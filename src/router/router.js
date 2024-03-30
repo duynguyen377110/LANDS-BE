@@ -14,7 +14,9 @@ router.use('/common-access', CommonRouterAccess);
 
 // ROLE
 const AdminRouterRole = require("./admin/admin-router-role");
+const CommonRouterRole = require("./common/common-router-role");
 router.use('/admin/role', AdminRouterRole);
+router.use('/common/role', CommonRouterRole);
 
 // CATEGORY
 router.use("/common/category", CommonRouterCategory);
