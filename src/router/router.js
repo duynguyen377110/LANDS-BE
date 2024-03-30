@@ -12,6 +12,10 @@ const MobileRouterCategory = require("./mobile/mobile-router-category");
 
 router.use('/common-access', CommonRouterAccess);
 
+// ROLE
+const AdminRouterRole = require("./admin/admin-router-role");
+router.use('/admin/role', AdminRouterRole);
+
 // CATEGORY
 router.use("/common/category", CommonRouterCategory);
 router.use('/admin/category',
