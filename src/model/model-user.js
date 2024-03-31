@@ -4,9 +4,15 @@ const configConstantDb = require("../config/consfig-constant-db");
 const Schema = mongoose.Schema;
 
 const ModelRole = new Schema({
-    name: {
+    fullName: {
         type: String,
         default: ''
+    },
+    email: {
+        type: String,
+        default: '',
+        required: true,
+        unique: true,
     },
     password: {
         type: String,
