@@ -26,6 +26,27 @@ class ServiceUser {
     }
 
     /**
+     * GET USER BY ID
+     * @param {*} id 
+     * @returns 
+     */
+    async getUserById(id = '') {
+        try {
+            return await ModelUser
+                        .findById(id)
+                        .populate([
+                            {
+                                path: 'role'
+                            }
+                        ])
+                        .lean();
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
      * FIND USER BY ID
      * @param {*} id 
      * @returns 
@@ -67,6 +88,44 @@ class ServiceUser {
             if(user) {
                 role.users.push(user);
                 await role.save();
+                return {status: true, message: 'Create user success'};
+            }
+            return {status: false, message: 'Create user unsuccess'};
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * UPDATE USER
+     * @param {*} infor 
+     * @returns 
+     */
+    async updateUser(infor = {}) {
+        try {
+            let user = await this.findUserById(infor.id);
+
+            if(user) {
+                if(user.role._id.toString() !== infor.role) {
+                    let role = await ServiceRole.findRoleById(infor.role);
+                    
+                    if(role) {
+                        user.role.users = user.role.users.filter((elm) => elm.toString() !== infor.id);
+                        await user.role.save();
+
+                        role.users.push(user);
+                        await role.save();
+                        user.role = role;
+                    }
+                }
+
+                user.fullName = infor.fullName;
+                user.email = infor.email;
+                user.phone = infor.phone;
+                user.address = infor.address;
+
+                await user.save();
                 return {status: true, message: 'Create user success'};
             }
             return {status: false, message: 'Create user unsuccess'};
