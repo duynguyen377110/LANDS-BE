@@ -10,6 +10,30 @@ class ServiceAccess {
     constructor() { }
 
     /**
+     * GENERAL ACCESS TOKEN
+     * @param {*} user 
+     * @returns 
+     */
+    generalAccessToken(user = {}) {
+        let { publicKey, privateKey } = UtilCrypto.generateKeyPairSync();
+        let accessToken = UtilJwt.sign({
+            id: user._id,
+            email: user.email,
+            phone: user.phone,
+            address: user.address
+        }, privateKey, 'AccessToken');
+
+        let refreshToken = UtilJwt.sign({
+            id: user._id,
+            email: user.email,
+            phone: user.phone,
+            address: user.address
+        }, privateKey, 'RefreshToken');
+
+        return {publicKey, accessToken, refreshToken};
+    }
+
+    /**
      * CREATE USER ACCESS
      * @param {*} user 
      * @param {*} publicKey 
@@ -60,32 +84,24 @@ class ServiceAccess {
             }
 
             let comparePassword = UtilBcrypt.compare(infor.password, user.password);
-
             if(!comparePassword) {
                 return { status: false, message: 'Password not match'};
             }
 
             let access = await this.findUserAccessByUserModel(user);
+            let {publicKey, accessToken, refreshToken } = this.generalAccessToken(user);
 
             if(!access) {
                 access = {};
-
-                let { publicKey, privateKey } = UtilCrypto.generateKeyPairSync();
-                let accessToken = UtilJwt.sign({
-                    id: user._id,
-                    email: user.email,
-                    phone: user.phone,
-                    address: infor.address
-                }, privateKey, 'AccessToken');
-
-                let refreshToken = UtilJwt.sign({
-                    id: user._id,
-                    email: user.email,
-                    phone: user.phone,
-                    address: infor.address
-                }, privateKey, 'RefreshToken');
-
                 access = await this.createUserAccess(user, publicKey, accessToken, refreshToken);
+
+            } else {
+                if(access.status) return {status: false, message: 'Account existing'};
+                access.publicKey = publicKey;
+                access.accessToken = accessToken;
+                access.refreshToken = refreshToken;
+                access.status = true;
+                await access.save();
             }
 
             return {
@@ -117,6 +133,7 @@ class ServiceAccess {
             access.tokens.push(access.refreshToken);
             access.refreshToken = '';
             access.status = false;
+            await access.save()
 
             return {
                 status: true,
