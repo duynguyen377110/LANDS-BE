@@ -5,11 +5,9 @@ const UtilCloudinary = require("../utils/util-cloudinary");
 const router = express.Router();
 const CommonRouterAccess = require("./common/common-router-access");
 
-// CATEGORY
-const CommonRouterCategory = require("./common/common-router-category");
-const AdminRouterCategory = require("./admin/admin-router-category");
-const MobileRouterCategory = require("./mobile/mobile-router-category");
-
+// ACCESS
+const AdminRouterAccess = require("./admin/admin-router-access");
+router.use("/admin/access", AdminRouterAccess);
 router.use('/common-access', CommonRouterAccess);
 
 // ROLE
@@ -25,6 +23,10 @@ router.use("/admin/user", AdminRouterUser);
 router.use("/common/user", CommonRouterUser);
 
 // CATEGORY
+const CommonRouterCategory = require("./common/common-router-category");
+const AdminRouterCategory = require("./admin/admin-router-category");
+const MobileRouterCategory = require("./mobile/mobile-router-category");
+
 router.use("/common/category", CommonRouterCategory);
 router.use('/admin/category',
     multer({storage: UtilCloudinary.configStorage('categories')}).any('photos'),
