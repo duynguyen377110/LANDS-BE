@@ -46,6 +46,11 @@ class ServiceAccess {
         }
     }
 
+    /**
+     * USER SIGNIN
+     * @param {*} infor 
+     * @returns 
+     */
     async userSignin(infor = {}) {
         try {
             let user = await ServiceUser.findUserByEmail(infor.email);
@@ -87,6 +92,35 @@ class ServiceAccess {
                 status: true,
                 message: 'signin success',
                 access
+            }
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * USER SIGNOUT
+     * @param {*} infor 
+     * @returns 
+     */
+    async userSignout(infor = {}) {
+        try {
+            let user = await ServiceUser.findUserByEmail(infor.email);
+            if(!user) {
+                return { status: false, message: 'Not found user'};
+            }
+
+            let access = await this.findUserAccessByUserModel(user);
+            access.publicKey = '';
+            access.accessToken = '';
+            access.tokens.push(access.refreshToken);
+            access.refreshToken = '';
+            access.status = false;
+
+            return {
+                status: true,
+                message: 'User signout success'
             }
 
         } catch (error) {
