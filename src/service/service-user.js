@@ -1,6 +1,7 @@
 "use strict"
-const ServiceRole = require("./service-role");
 const ModelUser = require("../model/model-user");
+const ServiceRole = require("./service-role");
+const UtilBcrypt = require("../utils/util-bcrypt");
 
 class ServiceUser {
 
@@ -66,6 +67,19 @@ class ServiceUser {
         }
     }
 
+    /**
+     * FIND USER BY EMAIL
+     * @param {*} email 
+     * @returns 
+     */
+    async findUserByEmail(email = '') {
+        try {
+            return await ModelUser.findOne({email: {$eq: email}}).exec();
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
     /**
      * CREATE USER
@@ -79,7 +93,7 @@ class ServiceUser {
             let user = await ModelUser.create({
                 fullName: infor.fullName,
                 email: infor.email,
-                password: infor.password,
+                password: UtilBcrypt.has(infor.password),
                 phone: infor.phone,
                 address: infor.address,
                 role
