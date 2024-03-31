@@ -17,6 +17,12 @@ class ControllerRole {
         return res.status(200).json({status: true, message: 'Get all role', roles});
     }
 
+    async getRoleById(req, res, next) {
+        let { id } = req.params;
+        let role = await ServiceRole.getRoleById(id);
+        return res.status(200).json({status: true, message: 'Get role success', role});
+    }
+
     /**
      * CREATE ROLE
      * @param {*} req 
@@ -33,6 +39,24 @@ class ControllerRole {
         }
 
         return res.status(200).json({status: 200, message: 'Create role success'});
+    }
+
+    /**
+     * UPDATE ROLE
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async updateRole(req, res, next) {
+        let { id, title } = req.body;
+        let { status, message } = await ServiceRole.updateRole({id, title});
+
+        if(!status) {
+            return res.status(400).json({status, message});
+        }
+
+        return res.status(200).json({status, message});
     }
 
     /**
