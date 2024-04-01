@@ -14,6 +14,10 @@ const configQueue = {
             REDUCER_ROLE: 'AUTH-ROLE',
             COMSUMER_ROLE: 'REFLY-AUTH-ROLE'
         },
+        UPDATE_ROLE: {
+            REDUCER_UPDATE_ROLE: 'AUTH-UPDATE-ROLE',
+            COMSUMER_UPDATE_ROLE: 'REFLY-AUTH-UPDATE-ROLE'
+        },
         DELETE_ROLE: {
             REDUCER_DELETE_ROLE: 'AUTH-DELETE-ROLE',
             COMSUMER_DELETE_ROLE: 'REFLY-AUTH-DELETE-ROLE'
