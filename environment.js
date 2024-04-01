@@ -17,7 +17,8 @@ const environment = {
             swagger: {
                 sersers: 'http://localhost:8080'
             },
-            db: 'mongodb://127.0.0.1:27017/lands'
+            db: 'mongodb://127.0.0.1:27017/lands',
+            queue: 'amqps://nciukfke:tfRF0Brz8Q0PvkXI-ELFMQrFbB53q3DN@armadillo.rmq.cloudamqp.com/nciukfke'
         },
         pro: {
             cloudinary: {
@@ -34,7 +35,8 @@ const environment = {
             swagger: {
                 sersers: 'https://lands-be.onrender.com'
             },
-            db: 'mongodb+srv://duy366110:A6XzLL3lblXeKH40@management.fr9ayxi.mongodb.net/lands-store?retryWrites=true&w=majority'
+            db: 'mongodb+srv://duy366110:A6XzLL3lblXeKH40@management.fr9ayxi.mongodb.net/lands-store?retryWrites=true&w=majority',
+            queue: 'amqps://nciukfke:tfRF0Brz8Q0PvkXI-ELFMQrFbB53q3DN@armadillo.rmq.cloudamqp.com/nciukfke'
         }
     },
     port: 8080
