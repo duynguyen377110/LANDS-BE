@@ -14,6 +14,14 @@ const configQueue = {
             REDUCER_ROLE: 'AUTH-ROLE',
             COMSUMER_ROLE: 'REFLY-AUTH-ROLE'
         },
+        ALL_ROLE: {
+            REDUCER_ALL_ROLE: 'AUTH-ALL-ROLE',
+            COMSUMER_ALL_ROLE: 'REFLY-AUTH-ALL-ROLE'
+        },
+        GET_ROLE_BY_ID: {
+            REDUCER_GET_ROLE_BY_ID: 'AUTH_GET-ROLE-BY-ID',
+            COMSUMER_GET_ROLE_BY_ID: 'REFLY-AUTH_GET-ROLE-BY-ID'
+        },
         UPDATE_ROLE: {
             REDUCER_UPDATE_ROLE: 'AUTH-UPDATE-ROLE',
             COMSUMER_UPDATE_ROLE: 'REFLY-AUTH-UPDATE-ROLE'
