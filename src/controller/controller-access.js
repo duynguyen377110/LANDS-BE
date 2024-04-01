@@ -1,5 +1,9 @@
 "use strict"
 const ServiceAccess = require("../service/service-access");
+const getCloud = require("../amqp/amqp-core").getCloud;
+const AmqpProducer = require("../amqp/amqp-reducer");
+const configQueue = require("../config/config-queue");
+
 class ControllerAccess {
 
     constructor() { }
@@ -59,6 +63,12 @@ class ControllerAccess {
     async adminSignin(req, res, next) {
         let { email, password } = req.body;
         let { status, message, access } = await ServiceAccess.userSignin({email, password});
+
+        let CONNECT = getCloud();
+        let REDUCER_SIGNIN = configQueue.AUTH.SIGNIN.REDUCER_SIGNIN;
+        let CONSUMER = configQueue.AUTH.SIGNIN.COMSUMER_SIGNIN;
+
+        await AmqpProducer.producer(CONNECT, REDUCER_SIGNIN, JSON.stringify({email, password}));
 
         if(!status) {
             return res.status(400).json({status, message});
