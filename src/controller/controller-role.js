@@ -17,14 +17,35 @@ class ControllerRole {
      * @returns 
      */
     async getAllRole(req, res, next) {
-        let roles = await ServiceRole.getAllRole();
-        return res.status(200).json({status: true, message: 'Get all role', roles});
+        let CONNECT = getCloud();
+        let REDUCER_ROLE = configQueue.AUTH.ALL_ROLE.REDUCER_ALL_ROLE;
+        let CONSUMER = configQueue.AUTH.ALL_ROLE.COMSUMER_ALL_ROLE;
+
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({status: true}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { roles } = information;
+            return res.status(200).json({status: true, roles});
+        })
     }
 
+    /**
+     * GET ROLE BY ID
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
     async getRoleById(req, res, next) {
         let { id } = req.params;
-        let role = await ServiceRole.getRoleById(id);
-        return res.status(200).json({status: true, message: 'Get role success', role});
+        
+        let CONNECT = getCloud();
+        let REDUCER_ROLE = configQueue.AUTH.GET_ROLE_BY_ID.REDUCER_GET_ROLE_BY_ID;
+        let CONSUMER = configQueue.AUTH.GET_ROLE_BY_ID.COMSUMER_GET_ROLE_BY_ID;
+
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { role } = information;
+            return res.status(200).json({status: true, role});
+        })
     }
 
     /**
@@ -88,10 +109,10 @@ class ControllerRole {
         let { id } = req.body;
 
         let CONNECT = getCloud();
-        let REDUCER_DELETE_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
+        let REDUCER_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
         let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;
 
-        await AmqpProducer.producer(CONNECT, REDUCER_DELETE_ROLE, JSON.stringify({id}));
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id}));
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
