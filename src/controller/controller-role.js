@@ -1,5 +1,9 @@
 "use strict"
 const ServiceRole = require("../service/service-role");
+const getCloud = require("../amqp/amqp-core").getCloud;
+const AmqpProducer = require("../amqp/amqp-reducer");
+const AmqpConsumer = require("../amqp/amqp-consumer");
+const configQueue = require("../config/config-queue");
 
 class ControllerRole {
 
@@ -32,13 +36,20 @@ class ControllerRole {
      */
     async createRole(req, res, next) {
         let { title } = req.body;
-        let role = await ServiceRole.createRole({title});
 
-        if(!role) {
-            return res.status(400).json({status: 400, message: 'Create role unsuccess'});
-        }
+        let CONNECT = getCloud();
+        let REDUCER_ROLE = configQueue.AUTH.ROLE.REDUCER_ROLE;
+        let CONSUMER = configQueue.AUTH.ROLE.COMSUMER_ROLE;
 
-        return res.status(200).json({status: 200, message: 'Create role success'});
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({title}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message } = information;
+
+            if(!status) {
+                return res.status(400).json({status, message});
+            }
+            return res.status(200).json({status, message});
+        })
     }
 
     /**
@@ -68,11 +79,20 @@ class ControllerRole {
      */
     async deleteRole(req, res, next) {
         let { id } = req.body;
-        let { status } = await ServiceRole.deleteRole({id});
-        if(!status) {
-            return res.status(400).json({status: false, message: 'Delete role unsuccess'});
-        }
-        return res.status(200).json({status: true, message: 'Delete role success'});
+
+        let CONNECT = getCloud();
+        let REDUCER_DELETE_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
+        let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;
+
+        await AmqpProducer.producer(CONNECT, REDUCER_DELETE_ROLE, JSON.stringify({id}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message } = information;
+
+            if(!status) {
+                return res.status(400).json({status, message});
+            }
+            return res.status(200).json({status, message});
+        })
     }
 }
 

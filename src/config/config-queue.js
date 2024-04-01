@@ -9,6 +9,14 @@ const configQueue = {
         SIGNOUT: {
             REDUCER_SIGNOUT: 'AUTH-SIGNOUT',
             COMSUMER_SIGNOUT: 'REFLY-AUTH-SIGNOUT'
+        },
+        ROLE: {
+            REDUCER_ROLE: 'AUTH-ROLE',
+            COMSUMER_ROLE: 'REFLY-AUTH-ROLE'
+        },
+        DELETE_ROLE: {
+            REDUCER_DELETE_ROLE: 'AUTH-DELETE-ROLE',
+            COMSUMER_DELETE_ROLE: 'REFLY-AUTH-DELETE-ROLE'
         }
     }
 }
