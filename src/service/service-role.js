@@ -44,6 +44,20 @@ class ServiceRole {
     }
 
     /**
+     * FIND ROLE BY NAME
+     * @param {*} name 
+     * @returns 
+     */
+    async findRoleByName(name = '') {
+        try {
+            return await ModelRole.findOne({title: {$eq: name}}).exec();
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
      * CREATE ROLE
      * @param {*} infor 
      * @returns 

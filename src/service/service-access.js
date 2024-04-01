@@ -1,5 +1,6 @@
 "use strict"
 const ModelAccess = require("../model/model-access");
+const ServiceRole = require("../service/service-role");
 const ServiceUser = require("../service/service-user");
 const UtilBcrypt = require("../utils/util-bcrypt");
 const UtilCrypto = require("../utils/util-crypto");
@@ -64,6 +65,34 @@ class ServiceAccess {
                             path: 'user'
                         })
                         .exec();
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+     * CLIENT SIGNUP USER ACCOUNT
+     * @param {*} infor 
+     * @returns 
+     */
+    async userSignup(infor = {}) {
+        try {
+            let role = await ServiceRole.findRoleByName('Client');
+            if(role) {
+                let payload = {
+                    fullName: infor.fullName,
+                    email: infor.email,
+                    password: infor.password,
+                    phone: infor.phone,
+                    address: infor.address,
+                    role: role._id.toString()
+                }
+
+                let { status, message } = await ServiceUser.createUser(payload);
+                return { status, message };
+            }
+            return {status: false, message: 'Not found role'};
 
         } catch (error) {
             throw error;
