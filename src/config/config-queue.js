@@ -5,6 +5,10 @@ const configQueue = {
         SIGNIN: {
             REDUCER_SIGNIN: 'AUTH-SIGNIN',
             COMSUMER_SIGNIN: 'REFLY-AUTH-SIGNIN'
+        },
+        SIGNOUT: {
+            REDUCER_SIGNOUT: 'AUTH-SIGNOUT',
+            COMSUMER_SIGNOUT: 'REFLY-AUTH-SIGNOUT'
         }
     }
 }
