@@ -4,9 +4,49 @@ class ControllerAccess {
 
     constructor() { }
 
+    /**
+     * CLIENT SIGNUP USER ACCOUNT
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
     async clientSignup(req, res, next) {
-        console.log('Signup accout');
-        return res.status(200).json("User signup success");
+        let { fullName, email, password, phone, address } = req.body;
+        let { status, message } = await ServiceAccess.userSignup({fullName, email, password, phone, address});
+        if(!status) {
+            return res.status(400).json({status, message});
+        }
+        return res.status(200).json({status, message});
+    }
+
+    /**
+     * CLIENT SIGNIN
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async clientSignin(req, res, next) {
+        let { email, password } = req.body;
+        let { status, message, access } = await ServiceAccess.userSignin({email, password});
+
+        if(!status) {
+            return res.status(400).json({status, message});
+        }
+
+        return res.status(200).json({
+            status,
+            message,
+            metadata: {
+                userId: access.user._id,
+                email: access.user.email,
+                phone: access.user.phone,
+                address: access.user.address,
+                accessToken: access.accessToken,
+                refreshToken: access.refreshToken
+            }
+        });
     }
 
     /**

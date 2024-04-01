@@ -8,7 +8,7 @@ const CommonRouterAccess = require("./common/common-router-access");
 // ACCESS
 const AdminRouterAccess = require("./admin/admin-router-access");
 router.use("/admin/access", AdminRouterAccess);
-router.use('/common-access', CommonRouterAccess);
+router.use('/common/access', CommonRouterAccess);
 
 // ROLE
 const AdminRouterRole = require("./admin/admin-router-role");
