@@ -61,13 +61,20 @@ class ControllerRole {
      */
     async updateRole(req, res, next) {
         let { id, title } = req.body;
-        let { status, message } = await ServiceRole.updateRole({id, title});
+        
+        let CONNECT = getCloud();
+        let REDUCER_ROLE = configQueue.AUTH.UPDATE_ROLE.REDUCER_UPDATE_ROLE;
+        let CONSUMER = configQueue.AUTH.UPDATE_ROLE.COMSUMER_UPDATE_ROLE;
 
-        if(!status) {
-            return res.status(400).json({status, message});
-        }
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id, title}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message } = information;
 
-        return res.status(200).json({status, message});
+            if(!status) {
+                return res.status(400).json({status, message});
+            }
+            return res.status(200).json({status, message});
+        })
     }
 
     /**
