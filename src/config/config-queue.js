@@ -10,6 +10,8 @@ const configQueue = {
             REDUCER_SIGNOUT: 'AUTH-SIGNOUT',
             COMSUMER_SIGNOUT: 'REFLY-AUTH-SIGNOUT'
         },
+
+        // ROLE
         ROLE: {
             REDUCER_ROLE: 'AUTH-ROLE',
             COMSUMER_ROLE: 'REFLY-AUTH-ROLE'
@@ -29,6 +31,19 @@ const configQueue = {
         DELETE_ROLE: {
             REDUCER_DELETE_ROLE: 'AUTH-DELETE-ROLE',
             COMSUMER_DELETE_ROLE: 'REFLY-AUTH-DELETE-ROLE'
+        },
+        // USER
+        USER: {
+            REDUCER_USER: 'AUTH-USER',
+            COMSUMER_USER: 'REFLY-AUTH-USER'
+        },
+        UPDATE_USER: {
+            REDUCER_UPDATE_USER: 'AUTH-UPDATE-USER',
+            COMSUMER_UPDATE_USER: 'REFLY-AUTH-UPDATE-USER'
+        },
+        DELETE_USER: {
+            REDUCER_DELETE_USER: 'AUTH-DELETE-USER',
+            COMSUMER_DELETE_USER: 'REFLY-AUTH-DELETE-USER'
         }
     }
 }
