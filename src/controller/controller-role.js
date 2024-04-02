@@ -1,5 +1,4 @@
 "use strict"
-const ServiceRole = require("../service/service-role");
 const getCloud = require("../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
