@@ -53,6 +53,12 @@ const configQueue = {
             REDUCER_DELETE_USER: 'AUTH-DELETE-USER',
             COMSUMER_DELETE_USER: 'REFLY-AUTH-DELETE-USER'
         }
+    },
+    PRODUCT: {
+        CATEGORY: {
+            REDUCER_CATEGORY: 'PRODUCT-ROLE',
+            COMSUMER_CATEGORY: 'REFLY-PRODUCT-ROLE'
+        }
     }
 }
 

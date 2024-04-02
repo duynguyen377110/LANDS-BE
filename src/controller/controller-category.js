@@ -1,5 +1,9 @@
 "use strict"
 const Servicecategory = require("../service/service-category");
+const getCloud = require("../amqp/amqp-core").getCloud;
+const AmqpProducer = require("../amqp/amqp-reducer");
+const AmqpConsumer = require("../amqp/amqp-consumer");
+const configQueue = require("../config/config-queue");
 
 class ControllerCategory {
 
@@ -53,18 +57,29 @@ class ControllerCategory {
      */
     async createCategory(req, res, next) {
         let { title, description } = req.body;
-        let { files } = req;
-        let thumbs = [];
+        // let { files } = req;
+        // let thumbs = [];
 
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
+        let CONNECT = getCloud();
+        let REDUCER = configQueue.PRODUCT.CATEGORY.REDUCER_CATEGORY;
+        // let CONSUMER = configQueue.AUTH.ALL_ROLE.COMSUMER_ALL_ROLE;
 
-        let category = await Servicecategory.createCategory({title, description, thumbs});
+        await AmqpProducer.producer(CONNECT, REDUCER, JSON.stringify({title, description, thumbs: ['text']}));
+
+        // if(files.length) {
+        //     files.forEach((thumb) => {
+        //         thumbs.push(thumb.path)
+        //     })
+        // }
+
+        // let category = await Servicecategory.createCategory({title, description, thumbs});
+
+        // await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        //     let { roles } = information;
+        //     return res.status(200).json({status: true, roles});
+        // })
         
-        if(!category) return res.status(500).json({status: false, message: 'Create category unsuccess'});
+        // if(!category) return res.status(500).json({status: false, message: 'Create category unsuccess'});
         return res.status(200).json({status: true, message: 'Create category success'});
     }
 
