@@ -37,6 +37,14 @@ const configQueue = {
             REDUCER_USER: 'AUTH-USER',
             COMSUMER_USER: 'REFLY-AUTH-USER'
         },
+        ALL_USER: {
+            REDUCER_ALL_USER: 'AUTH-ALL-USER',
+            COMSUMER_ALL_USER: 'REFLY-AUTH-ALL-USER'
+        },
+        GET_USER_BY_ID: {
+            REDUCER_GET_USER_BY_ID: 'AUTH_GET-USER-BY-ID',
+            COMSUMER_GET_USER_BY_ID: 'REFLY-AUTH_GET-USER-BY-ID'
+        },
         UPDATE_USER: {
             REDUCER_UPDATE_USER: 'AUTH-UPDATE-USER',
             COMSUMER_UPDATE_USER: 'REFLY-AUTH-UPDATE-USER'

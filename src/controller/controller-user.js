@@ -1,5 +1,4 @@
 "use strict"
-const ServiceUser = require("../service/service-user");
 const configQueue = require("../config/config-queue");
 const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
@@ -17,8 +16,19 @@ class ControllerUser {
      * @returns 
      */
     async getAll(req, res, next) {
-        let users = await ServiceUser.getAll();
-        return res.status(200).json({status: true, message: 'Get all user', users});
+        let CONNECT = getCloud();
+        let REDUCER = configQueue.AUTH.ALL_USER.REDUCER_ALL_USER;
+        let CONSUMER = configQueue.AUTH.ALL_USER.COMSUMER_ALL_USER;
+
+        await AmqpProducer.producer(CONNECT, REDUCER, JSON.stringify({type: true}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message, users } = information;
+
+            if(!status) {
+                return res.status(400).json({status, message, users: []});
+            }
+            return res.status(200).json({status, message, users});
+        })
     }
 
     /**
@@ -29,9 +39,20 @@ class ControllerUser {
      * @returns 
      */
     async getUserById(req, res, next) {
+        let CONNECT = getCloud();
+        let REDUCER = configQueue.AUTH.GET_USER_BY_ID.REDUCER_GET_USER_BY_ID;
+        let CONSUMER = configQueue.AUTH.GET_USER_BY_ID.COMSUMER_GET_USER_BY_ID;
         let { id } = req.params;
-        let user = await ServiceUser.getUserById(id);
-        return res.status(200).json({status: true, message: 'Get user success', user});
+
+        await AmqpProducer.producer(CONNECT, REDUCER, JSON.stringify({id}));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message, user } = information;
+
+            if(!status) {
+                return res.status(400).json({status, message, user: null});
+            }
+            return res.status(200).json({status, message, user});
+        })
     }
 
     /**
