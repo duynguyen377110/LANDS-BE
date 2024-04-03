@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/", ControllerProduct.createProduct);
 router.patch("/", ControllerProduct.updateProduct);
-router.delete('/', ControllerProduct.deleteProduct);
+router.delete('/', ControllerProduct.deleteProductThumb);
 
 module.exports = router;

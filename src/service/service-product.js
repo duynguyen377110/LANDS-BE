@@ -133,18 +133,16 @@ class ServiceProduct {
     }
 
     /**
-     * DELETE PRODUCT
+     * DELETE THUMBS IMAGE OF PRODUCT
      * @param {*} infor 
      * @returns 
      */
-    async deleteProduct(infor = {}) {
+    async deleteThumbsProduct(infor = {}) {
         try {
-            let product = await this.findProductById(infor.id);
-
-            if(product.thumbs.length) {
+            if(infor.thumbs.length) {
                 let thumbs = [];
 
-                for(let thumb of product.thumbs) {
+                for(let thumb of infor.thumbs) {
                     let thumbExtract = thumb.split('/');
                     let index = thumbExtract.findIndex((directory) => directory === environment.cloudinary.directory);
                     let thumbExtractResult = thumbExtract.slice(index).join('/').split('.')[0];
@@ -156,20 +154,12 @@ class ServiceProduct {
                     }
                 }
                 
-                // DELETE MANY THUMBS
                 if(thumbs.length) {
                     await UtilCloudinary.destroyMany(thumbs);
                 }
-                
             }
 
-            if(product.categories) {
-                product.categories.products = product.categories.products.filter((pro) => pro.toString() !== product._id.toString());
-                await product.categories.save();
-            }
-
-            await product.deleteOne();
-            return {status: true, message: 'Delete category success'};
+            return { status: true, message: 'Delete thumbs success'};
 
         } catch (error) {
             throw error;
