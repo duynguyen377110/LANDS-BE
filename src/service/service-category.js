@@ -134,6 +134,37 @@ class ServiceCategory {
             throw error;
         }
     }
+
+    /**
+     * DELETE THUMBS IMAGE OF CATEGORY
+     * @param {*} infor 
+     * @returns 
+     */
+    async deleteThumbsCategory(infor = {}) {
+        try {
+            if(infor.thumbs.length) {
+                let images = [];
+                for(let image of infor.thumbs) {
+                    let imageName = image.split('/').splice(-1).join('').split(".")[0];
+
+                    // THUC HIEN KIEM TRA XEM FILE CO TON TAI TREN CLOUD
+                    let {status, result } = await UtilCloudinary.exists(`${environment.cloudinary.directory}/${imageName}`);
+                    if(status) {
+                        images.push(`${environment.cloudinary.directory}/categories/${imageName}`);
+                    }
+                }
+                
+                if(images.length) {
+                    await UtilCloudinary.destroyMany(images);
+                }
+            }
+
+            return { status: true, message: 'Delete thumbs success'};
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = new ServiceCategory();

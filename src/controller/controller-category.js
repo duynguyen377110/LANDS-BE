@@ -100,13 +100,13 @@ class ControllerCategory {
      * @returns 
      */
     async deleteCategory(req, res, next) {
-        let { id } = req.body;
-        let { status } = await Servicecategory.deleteCategory({id});
+        let { thumbs } = req.body;
+        let { status, message } = await Servicecategory.deleteThumbsCategory({thumbs});
         
         if(!status) {
-            return res.status(400).json({status: false, message: 'Delete category unsuccess'});
+            return res.status(400).json({status: false, message});
         }
-        return res.status(200).json({status: true, message: 'Delete category success'});
+        return res.status(200).json({status: true, message});
     }
 }
 
