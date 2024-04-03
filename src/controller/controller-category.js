@@ -56,31 +56,14 @@ class ControllerCategory {
      * @returns 
      */
     async createCategory(req, res, next) {
-        let { title, description } = req.body;
-        // let { files } = req;
-        // let thumbs = [];
-
-        let CONNECT = getCloud();
-        let REDUCER = configQueue.PRODUCT.CATEGORY.REDUCER_CATEGORY;
-        // let CONSUMER = configQueue.AUTH.ALL_ROLE.COMSUMER_ALL_ROLE;
-
-        await AmqpProducer.producer(CONNECT, REDUCER, JSON.stringify({title, description, thumbs: ['text']}));
-
-        // if(files.length) {
-        //     files.forEach((thumb) => {
-        //         thumbs.push(thumb.path)
-        //     })
-        // }
-
-        // let category = await Servicecategory.createCategory({title, description, thumbs});
-
-        // await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
-        //     let { roles } = information;
-        //     return res.status(200).json({status: true, roles});
-        // })
-        
-        // if(!category) return res.status(500).json({status: false, message: 'Create category unsuccess'});
-        return res.status(200).json({status: true, message: 'Create category success'});
+        let { files } = req;
+        let thumbs = [];
+        if(files.length) {
+            files.forEach((thumb) => {
+                thumbs.push(thumb.path)
+            })
+        }
+        return res.status(200).json({status: true, message: 'Upload thumb category', thumbs});
     }
 
     /**
