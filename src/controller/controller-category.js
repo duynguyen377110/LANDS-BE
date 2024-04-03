@@ -63,7 +63,7 @@ class ControllerCategory {
                 thumbs.push(thumb.path)
             })
         }
-        return res.status(200).json({status: true, message: 'Upload thumb category', thumbs});
+        return res.status(200).json({status: true, message: 'Upload thumbs category', thumbs});
     }
 
     /**
@@ -73,9 +73,7 @@ class ControllerCategory {
      * @param {*} next 
      */
     async updateCategory(req, res, next) {
-        let { id, title, description } = req.body;
         let { files } = req;
-
         let thumbs = [];
 
         if(files.length) {
@@ -83,12 +81,7 @@ class ControllerCategory {
                 thumbs.push(thumb.path)
             })
         }
-
-        let { status } = await Servicecategory.updateCategory({id, title, description, thumbs});
-        if(!status) {
-            return res.status(400).json({status: false, message: 'Update category unsuccess'});
-        }
-        return res.status(200).json({status: true, message: 'Update category success'});
+        return res.status(200).json({status: true, message: 'Upload thumbs category', thumbs});
     }
 
 
