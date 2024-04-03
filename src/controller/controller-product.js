@@ -91,21 +91,16 @@ class ControllerProduct {
         return res.status(200).json({status: true, message: 'Update product success'});
     }
 
-
     /**
-     * DELETE PRODUCT
+     * DELETE PRODUCT THUMB
      * @param {*} req 
      * @param {*} res 
-     * @param {*} next
-     * @returns 
+     * @param {*} next 
      */
-    async deleteProduct(req, res, next) {
-        let { id } = req.body;
-        let { status } = await ServiceProduct.deleteProduct({id});
-        if(!status) {
-            return res.status(400).json({status: false, message: 'Destroy product unsuccess'});
-        }
-        return res.status(200).json({status: true, message: 'Destroy product success'});
+    async deleteProductThumb(req, res, next) {
+        let { thumbs } = req.body;
+        let { status, message } = await ServiceProduct.deleteThumbsProduct({thumbs});
+        return res.status(200).json({status, message});
     }
 }
 
