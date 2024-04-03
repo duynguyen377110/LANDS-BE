@@ -39,7 +39,7 @@ const environment = {
             queue: 'amqps://nciukfke:tfRF0Brz8Q0PvkXI-ELFMQrFbB53q3DN@armadillo.rmq.cloudamqp.com/nciukfke'
         }
     },
-    port: 8080
+    port: 8083
 }
 
 const env = environment.model.pro;
