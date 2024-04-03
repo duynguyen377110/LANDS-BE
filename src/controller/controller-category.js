@@ -49,13 +49,13 @@ class ControllerCategory {
     }
 
     /**
-     * CREATE CATEGORY
+     * UPLOAD CATEGORY THUMB
      * @param {*} req 
      * @param {*} res 
      * @param {*} next 
      * @returns 
      */
-    async createCategory(req, res, next) {
+    async uploadCategoryThumb(req, res, next) {
         let { files } = req;
         let thumbs = [];
         if(files.length) {
@@ -63,43 +63,19 @@ class ControllerCategory {
                 thumbs.push(thumb.path)
             })
         }
-        return res.status(200).json({status: true, message: 'Upload thumbs category', thumbs});
+        return res.status(200).json({status: true, message: 'Upload thumbs', thumbs});
     }
 
     /**
-     * UPDATE CATEGORY
+     * DELETE CATEGORY THUMB
      * @param {*} req 
      * @param {*} res 
      * @param {*} next 
      */
-    async updateCategory(req, res, next) {
-        let { files } = req;
-        let thumbs = [];
-
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
-        return res.status(200).json({status: true, message: 'Upload thumbs category', thumbs});
-    }
-
-
-    /**
-     * DELETE CATEGORY
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async deleteCategory(req, res, next) {
+    async deleteCategoryThumb(req, res, next) {
         let { thumbs } = req.body;
         let { status, message } = await Servicecategory.deleteThumbsCategory({thumbs});
-        
-        if(!status) {
-            return res.status(400).json({status: false, message});
-        }
-        return res.status(200).json({status: true, message});
+        return res.status(200).json({status, message});
     }
 }
 

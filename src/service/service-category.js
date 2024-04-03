@@ -58,84 +58,6 @@ class ServiceCategory {
     }
 
     /**
-     * CREATE CATEGORY
-     * @param {*} infor 
-     * @returns 
-     */
-    async createCategory(infor = {}) {
-        try {
-            return await ModelCategory.create({
-                title: infor.title,
-                description: infor.description,
-                thumbs: infor.thumbs
-            })
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-
-    /**
-     * UPDATE CATEGORY
-     * @param {*} infor 
-     * @returns 
-     */
-    async updateCategory(infor = {}) {
-        try {
-            let category = await this.findCategoryById(infor.id);
-
-            if(infor.thumbs.length) {
-                infor.thumbs.forEach((thumb) => {
-                    category.thumbs.unshift(thumb);
-                })
-            }
-
-            category.title = infor.title;
-            category.description = infor.description;
-            await category.save();
-            return {status: true, message: 'Update category success'};
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    /**
-     * DELETE CATEGORY
-     * @param {*} infor 
-     * @returns 
-     */
-    async deleteCategory(infor = {}) {
-        try {
-            let category = await this.findCategoryById(infor.id);
-
-            if(category.thumbs.length) {
-                let images = [];
-                for(let image of category.thumbs) {
-                    let imageName = image.split('/').splice(-1).join('').split(".")[0];
-
-                    // THUC HIEN KIEM TRA XEM FILE CO TON TAI TREN CLOUD
-                    let {status, result } = await UtilCloudinary.exists(`${environment.cloudinary.directory}/${imageName}`);
-                    if(status) {
-                        images.push(`${environment.cloudinary.directory}/categories/${imageName}`);
-                    }
-                }
-                
-                if(images.length) {
-                    await UtilCloudinary.destroyMany(images);
-                }
-            }
-
-            await category.deleteOne();
-            return {status: true, message: 'Delete category success'};
-
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    /**
      * DELETE THUMBS IMAGE OF CATEGORY
      * @param {*} infor 
      * @returns 
@@ -143,19 +65,22 @@ class ServiceCategory {
     async deleteThumbsCategory(infor = {}) {
         try {
             if(infor.thumbs.length) {
-                let images = [];
-                for(let image of infor.thumbs) {
-                    let imageName = image.split('/').splice(-1).join('').split(".")[0];
+                let thumbs = [];
 
-                    // THUC HIEN KIEM TRA XEM FILE CO TON TAI TREN CLOUD
-                    let {status, result } = await UtilCloudinary.exists(`${environment.cloudinary.directory}/${imageName}`);
+                for(let thumb of infor.thumbs) {
+                    let thumbExtract = thumb.split('/');
+                    let index = thumbExtract.findIndex((directory) => directory === environment.cloudinary.directory);
+                    let thumbExtractResult = thumbExtract.slice(index).join('/').split('.')[0];
+
+                    // CHECK IMAGE EXIT ON CLOUD
+                    let {status } = await UtilCloudinary.exists(thumbExtractResult);
                     if(status) {
-                        images.push(`${environment.cloudinary.directory}/categories/${imageName}`);
+                        thumbs.push(thumbExtractResult);
                     }
                 }
                 
-                if(images.length) {
-                    await UtilCloudinary.destroyMany(images);
+                if(thumbs.length) {
+                    await UtilCloudinary.destroyMany(thumbs);
                 }
             }
 
