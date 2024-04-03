@@ -31,33 +31,21 @@ class ControllerProduct {
     }
 
     /**
-     * CREATE PRODUCT
+     * UPLOAD PRODUCT THUMB
      * @param {*} req 
      * @param {*} res 
      * @param {*} next 
      * @returns 
      */
-    async createProduct(req, res, next) {
-        let { productOwner, address, contact, landArea, price, category } = req.body;
+    async uploadProductThumb(req, res, next) {
         let { files } = req;
-
         let thumbs = [];
         if(files.length) {
             files.forEach((thumb) => {
-                thumbs.push(thumb.path);
+                thumbs.push(thumb.path)
             })
         }
-
-        let { status } = await ServiceProduct.createProduct({
-            productOwner, address, contact,
-            landArea, price, category, thumbs
-        })
-
-        if(!status) {
-            return res.status(400).json({status: false, message: 'Create product unsuccess'});
-        }
-        return res.status(200).json({status: true, message: 'Create product success'});
-
+        return res.status(200).json({status: true, message: 'Upload thumbs', thumbs});
     }
 
     /**
