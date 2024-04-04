@@ -62,46 +62,6 @@ class ServiceProduct {
     }
 
     /**
-     * UPDATE PRODUCT
-     * @param {*} infor 
-     * @returns 
-     */
-    async updateProduct(infor = {}) {
-        try {
-            let product = await this.findProductById(infor.id);
-
-            if(product.categories._id.toString() !== infor.category) {
-                product.categories.products = product.categories.products.filter((pro) => pro.toString() != infor.id);
-                await product.categories.save();
-
-
-                let category = await ServiceCategory.findCategoryById(infor.category);
-                category.products.push(product);
-                await category.save();
-                product.categories = category;
-            }
-
-            if(infor.thumbs.length) {
-                infor.thumbs.forEach((thumb) => {
-                    product.thumbs.unshift(thumb);
-                })
-            }
-
-            product.productOwner = infor.productOwner;
-            product.address = infor.address;
-            product.contact = infor.contact;
-            product.landArea = infor.landArea;
-            product.price = infor.price;
-
-            await product.save();
-            return {status: true, message: 'Update product success'};
-
-        } catch (error) {
-            throw error
-        }
-    }
-
-    /**
      * DELETE THUMBS IMAGE OF PRODUCT
      * @param {*} infor 
      * @returns 
