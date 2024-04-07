@@ -2,8 +2,8 @@
 const express = require('express');
 const multer = require("multer");
 const UtilCloudinary = require("../utils/util-cloudinary");
-const router = express.Router();
 const CommonRouterAccess = require("./common/common-router-access");
+const router = express.Router();
 
 // ACCESS
 const AdminRouterAccess = require("./admin/admin-router-access");
@@ -41,14 +41,5 @@ router.use("/common/product", CommonRouterProduct);
 router.use('/admin/product',
     multer({storage: UtilCloudinary.configStorage('products')}).any('photos'),
     AdminRouterProduct);
-
-
-// router.use((error, req, res, next) => {
-//     return res.status(500).json({status: false, message: 'Internal server failed'});
-// })
-
-// router.use((req, res, next) => {
-//     return res.status(404).json({status: false, message: 'Not found request'});
-// })
 
 module.exports = router;

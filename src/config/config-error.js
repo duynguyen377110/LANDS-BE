@@ -1,0 +1,26 @@
+"use strict"
+
+const config = {
+    badrequest: {
+        status: 400,
+        message: "Bad request"
+    },
+    conflict: {
+        status: 409,
+        message: "Conflic error"
+    },
+    forbidden: {
+        status: 403,
+        message: 'Forbidden error'
+    },
+    failedDependency: {
+        status: 424,
+        message: "Failed dependency"
+    },
+    lengthRequired: {
+        status: 411,
+        message: "Length required"
+    }
+}
+
+module.exports = config

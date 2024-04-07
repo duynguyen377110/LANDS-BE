@@ -3,6 +3,8 @@ const getCloud = require("../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
 const configQueue = require("../config/config-queue");
+const { validationResult } = require("express-validator");
+const { BadRequest } = require("../core/core-error");
 
 class ControllerRole {
 
@@ -55,8 +57,17 @@ class ControllerRole {
      * @returns 
      */
     async createRole(req, res, next) {
-        let { title } = req.body;
+        const error = validationResult(req);
 
+        if (!error.isEmpty()) {
+            switch(error.array()[0].msg) {
+                case 'Title not empty':
+                default:
+                    throw new BadRequest(error.array()[0].msg);
+            }
+        }
+
+        let { title } = req.body;
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.ROLE.REDUCER_ROLE;
         let CONSUMER = configQueue.AUTH.ROLE.COMSUMER_ROLE;
@@ -66,7 +77,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) {
-                return res.status(400).json({status, message});
+                throw new BadRequest(message);
             }
             return res.status(200).json({status, message});
         })
@@ -80,8 +91,20 @@ class ControllerRole {
      * @returns 
      */
     async updateRole(req, res, next) {
-        let { id, title } = req.body;
+        let error = validationResult(req);
+
+        if (!error.isEmpty()) {
+            switch(error.array()[0].msg) {
+                case 'Id not empty':
+                    throw new BadRequest(error.array()[0].msg);
+
+                case 'Title not empty':
+                default:
+                    throw new BadRequest(error.array()[0].msg);
+            }
+        }
         
+        let { id, title } = req.body;
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.UPDATE_ROLE.REDUCER_UPDATE_ROLE;
         let CONSUMER = configQueue.AUTH.UPDATE_ROLE.COMSUMER_UPDATE_ROLE;
@@ -91,7 +114,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) {
-                return res.status(400).json({status, message});
+                throw new BadRequest(message);
             }
             return res.status(200).json({status, message});
         })
@@ -105,8 +128,18 @@ class ControllerRole {
      * @returns 
      */
     async deleteRole(req, res, next) {
-        let { id } = req.body;
+        let error = validationResult(req);
 
+        if (!error.isEmpty()) {
+            switch(error.array()[0].msg) {
+
+                case 'Id not empty':
+                default:
+                    throw new BadRequest(error.array()[0].msg);
+            }
+        }
+
+        let { id } = req.body;
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
         let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;
@@ -116,7 +149,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) {
-                return res.status(400).json({status, message});
+                throw new BadRequest(message);
             }
             return res.status(200).json({status, message});
         })
