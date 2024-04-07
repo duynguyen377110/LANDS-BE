@@ -24,4 +24,19 @@ app.use(compression());
 
 app.use("/api/v1", router);
 
+app.use((req, res, next) => {
+    let error = Error("Not found");
+    error.httpStatusCode = 404;
+    return next(error);
+})
+
+app.use((error, req, res, next) => {
+    let status = error.httpStatusCode || 500;
+
+    return res.status(status).json({
+        status,
+        message: error.message || 'Internal server failed'
+    })
+})
+
 module.exports = app;
