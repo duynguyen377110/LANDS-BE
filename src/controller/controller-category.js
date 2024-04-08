@@ -30,6 +30,18 @@ class ControllerCategory {
      */
     async getAllCategory(req, res, next) {
         let categories = await Servicecategory.getAllCategory();
+
+        let CONNECT = getCloud();
+        // let REDUCER_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
+        // let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;
+
+        await AmqpProducer.producer(CONNECT, 'PRODUCT-NEW-CATEGORY', JSON.stringify({status: true, message: 'Text'}));
+        await AmqpConsumer.consumer(CONNECT, 'REFLY-PRODUCT-NEW-CATEGORY', (information) => {
+            console.log(information);
+
+            // if(!status) throw new BadRequestError(message)
+            // new Accepted(message).response(res);
+        })
         return res.status(200).json({status: true, categories});
     }
 

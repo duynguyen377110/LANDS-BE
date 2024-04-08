@@ -56,8 +56,8 @@ const configQueue = {
     },
     PRODUCT: {
         CATEGORY: {
-            REDUCER_CATEGORY: 'PRODUCT-ROLE',
-            COMSUMER_CATEGORY: 'REFLY-PRODUCT-ROLE'
+            REDUCER_CATEGORY: 'PRODUCT-NEW-CATEGORY',
+            COMSUMER_CATEGORY: 'REFLY-PRODUCT-NEW-CATEGORY'
         }
     }
 }
