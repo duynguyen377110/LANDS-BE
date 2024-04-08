@@ -8,7 +8,7 @@ class CoreError extends Error {
     }
 }
 
-class BadRequest extends CoreError {
+class BadRequestError extends CoreError {
     constructor(message = config.badrequest.message, status = config.badrequest.status) {
         super(message, status)
     }
@@ -26,22 +26,29 @@ class ForbiddenError extends CoreError {
     }
 }
 
-class FailedDependency extends CoreError {
+class FailedDependencyError extends CoreError {
     constructor(message = config.failedDependency.message, status = config.failedDependency.status) {
         super(message, status)
     }
 }
 
-class LengthRequired extends CoreError {
+class LengthRequiredError extends CoreError {
     constructor(message = config.lengthRequired.message, status = config.lengthRequired.status) {
         super(message, status)
     }
 }
 
+class InternalServerError extends CoreError {
+    constructor(message = config.internalServer.message, status = config.internalServer.status) {
+        super(message, status)
+    }
+}
+
 module.exports = {
-    BadRequest,
+    BadRequestError,
     ConflictError,
     ForbiddenError,
-    FailedDependency,
-    LengthRequired
+    FailedDependencyError,
+    LengthRequiredError,
+    InternalServerError
 }

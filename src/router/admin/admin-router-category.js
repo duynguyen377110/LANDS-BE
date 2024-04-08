@@ -1,10 +1,11 @@
 "use strict"
 const express = require("express");
 const ControllerCategory = require("../../controller/controller-category");
+const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
-router.post('/', ControllerCategory.uploadCategoryThumb);
-router.patch('/', ControllerCategory.uploadCategoryThumb);
-router.delete('/', ControllerCategory.deleteCategoryThumb);
+router.post('/', MiddlewareException.except(ControllerCategory.uploadCategoryThumb));
+router.patch('/', MiddlewareException.except(ControllerCategory.uploadCategoryThumb));
+router.delete('/', MiddlewareException.except(ControllerCategory.deleteCategoryThumb));
 
 module.exports = router;

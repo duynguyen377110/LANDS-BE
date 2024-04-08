@@ -20,6 +20,10 @@ const config = {
     lengthRequired: {
         status: 411,
         message: "Length required"
+    },
+    internalServer: {
+        status: 500,
+        message: "Internal server error"
     }
 }
 

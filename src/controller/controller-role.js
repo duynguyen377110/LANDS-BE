@@ -4,7 +4,8 @@ const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
 const configQueue = require("../config/config-queue");
 const { validationResult } = require("express-validator");
-const { BadRequest } = require("../core/core-error");
+const { BadRequestError } = require("../core/core-error");
+const { Ok, Created, Accepted } = require("../core/core-sucess");
 
 class ControllerRole {
 
@@ -25,7 +26,11 @@ class ControllerRole {
         await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({status: true}));
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { roles } = information;
-            return res.status(200).json({status: true, roles});
+
+            let metadata = {
+                roles
+            }
+            new Ok("Get roles success").response(res, metadata);
         })
     }
 
@@ -45,7 +50,11 @@ class ControllerRole {
         await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id}));
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { role } = information;
-            return res.status(200).json({status: true, role});
+
+            let metadata = {
+                role
+            }
+            new Ok("Get role success").response(res, metadata);
         })
     }
 
@@ -63,7 +72,7 @@ class ControllerRole {
             switch(error.array()[0].msg) {
                 case 'Title not empty':
                 default:
-                    throw new BadRequest(error.array()[0].msg);
+                    throw new BadRequestError(error.array()[0].msg);
             }
         }
 
@@ -76,10 +85,8 @@ class ControllerRole {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                throw new BadRequest(message);
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new  Created(message).response(res);
         })
     }
 
@@ -96,11 +103,11 @@ class ControllerRole {
         if (!error.isEmpty()) {
             switch(error.array()[0].msg) {
                 case 'Id not empty':
-                    throw new BadRequest(error.array()[0].msg);
+                    throw new BadRequestError(error.array()[0].msg);
 
                 case 'Title not empty':
                 default:
-                    throw new BadRequest(error.array()[0].msg);
+                    throw new BadRequestError(error.array()[0].msg);
             }
         }
         
@@ -113,10 +120,8 @@ class ControllerRole {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                throw new BadRequest(message);
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new Accepted(message).response(res);
         })
     }
 
@@ -135,7 +140,7 @@ class ControllerRole {
 
                 case 'Id not empty':
                 default:
-                    throw new BadRequest(error.array()[0].msg);
+                    throw new BadRequestError(error.array()[0].msg);
             }
         }
 
@@ -148,10 +153,8 @@ class ControllerRole {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                throw new BadRequest(message);
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new Accepted(message).response(res);
         })
     }
 }
