@@ -1,8 +1,8 @@
 "use strict"
 const ModelProduct = require("../model/model-product");
-const ServiceCategory = require("./service-category");
 const UtilCloudinary = require("../utils/util-cloudinary");
 const environment = require("../../environment").environment;
+const { InternalServerError } = require("../core/core-error");
 
 class ServiceProduct {
 
@@ -16,7 +16,7 @@ class ServiceProduct {
         try {
             return await ModelProduct.find({}).lean();
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -37,7 +37,7 @@ class ServiceProduct {
                         .lean();
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -57,7 +57,7 @@ class ServiceProduct {
                         ]);
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -91,7 +91,7 @@ class ServiceProduct {
             return { status: true, message: 'Delete thumbs success'};
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 }

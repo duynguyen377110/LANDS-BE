@@ -1,8 +1,11 @@
 "use strict"
+const { validationResult } = require("express-validator");
 const configQueue = require("../config/config-queue");
 const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
 const getCloud = require("../amqp/amqp-core").getCloud;
+const { BadRequestError } = require("../core/core-error");
+const { Ok, Created, Accepted } = require("../core/core-sucess");
 
 class ControllerUser {
 
@@ -24,10 +27,12 @@ class ControllerUser {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message, users } = information;
 
-            if(!status) {
-                return res.status(400).json({status, message, users: []});
+            if(!status) throw new BadRequestError(message)
+
+            let metadata = {
+                users
             }
-            return res.status(200).json({status, message, users});
+            new Ok(message).response(res, metadata)
         })
     }
 
@@ -48,10 +53,12 @@ class ControllerUser {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message, user } = information;
 
-            if(!status) {
-                return res.status(400).json({status, message, user: null});
+            if(!status) throw new BadRequestError(message)
+
+            let metadata = {
+                user
             }
-            return res.status(200).json({status, message, user});
+            new Ok(message).response(res, metadata)
         })
     }
 
@@ -63,6 +70,9 @@ class ControllerUser {
      * @returns 
      */
     async createUser(req, res, next) {
+        const error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let REDUCER = configQueue.AUTH.USER.REDUCER_USER;
         let CONSUMER = configQueue.AUTH.USER.COMSUMER_USER;
@@ -72,10 +82,8 @@ class ControllerUser {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                return res.status(400).json({status, message});
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new Created(message).response(res);
         })
     }
 
@@ -86,6 +94,9 @@ class ControllerUser {
      * @param {*} next 
      */
     async updateUser(req, res, next) {
+        const error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let REDUCER = configQueue.AUTH.UPDATE_USER.REDUCER_UPDATE_USER;
         let CONSUMER = configQueue.AUTH.UPDATE_USER.COMSUMER_UPDATE_USER;
@@ -95,10 +106,8 @@ class ControllerUser {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                return res.status(400).json({status, message});
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new Accepted(message).response(res);
         })
     }
 
@@ -110,6 +119,9 @@ class ControllerUser {
      * @returns 
      */
     async deleteUser(req, res, next) {
+        const error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let REDUCER = configQueue.AUTH.DELETE_USER.REDUCER_DELETE_USER;
         let CONSUMER = configQueue.AUTH.DELETE_USER.COMSUMER_DELETE_USER;
@@ -119,10 +131,8 @@ class ControllerUser {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) {
-                return res.status(400).json({status, message});
-            }
-            return res.status(200).json({status, message});
+            if(!status) throw new BadRequestError(message)
+            new Accepted(message).response(res);
         })
     }
 }

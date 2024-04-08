@@ -2,6 +2,7 @@
 const ModelCategory = require("../model/model-category");
 const UtilCloudinary = require("../utils/util-cloudinary");
 const environment = require("../../environment").environment;
+const { InternalServerError } = require("../core/core-error");
 
 class ServiceCategory {
 
@@ -10,8 +11,9 @@ class ServiceCategory {
     async getAmount() {
         try {
             return await ModelCategory.find().count().lean();
+
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -20,7 +22,7 @@ class ServiceCategory {
             return await ModelCategory.find().lean();
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -39,7 +41,7 @@ class ServiceCategory {
                         ])
                         .lean();
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -53,7 +55,7 @@ class ServiceCategory {
             return await ModelCategory.findById(id);
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 
@@ -87,7 +89,7 @@ class ServiceCategory {
             return { status: true, message: 'Delete thumbs success'};
 
         } catch (error) {
-            throw error;
+            throw new InternalServerError(error.message);
         }
     }
 }
