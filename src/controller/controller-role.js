@@ -67,14 +67,7 @@ class ControllerRole {
      */
     async createRole(req, res, next) {
         const error = validationResult(req);
-
-        if (!error.isEmpty()) {
-            switch(error.array()[0].msg) {
-                case 'Title not empty':
-                default:
-                    throw new BadRequestError(error.array()[0].msg);
-            }
-        }
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
 
         let { title } = req.body;
         let CONNECT = getCloud();
@@ -99,17 +92,7 @@ class ControllerRole {
      */
     async updateRole(req, res, next) {
         let error = validationResult(req);
-
-        if (!error.isEmpty()) {
-            switch(error.array()[0].msg) {
-                case 'Id not empty':
-                    throw new BadRequestError(error.array()[0].msg);
-
-                case 'Title not empty':
-                default:
-                    throw new BadRequestError(error.array()[0].msg);
-            }
-        }
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
         
         let { id, title } = req.body;
         let CONNECT = getCloud();
@@ -134,15 +117,7 @@ class ControllerRole {
      */
     async deleteRole(req, res, next) {
         let error = validationResult(req);
-
-        if (!error.isEmpty()) {
-            switch(error.array()[0].msg) {
-
-                case 'Id not empty':
-                default:
-                    throw new BadRequestError(error.array()[0].msg);
-            }
-        }
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
 
         let { id } = req.body;
         let CONNECT = getCloud();
