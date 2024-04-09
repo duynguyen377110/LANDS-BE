@@ -94,6 +94,25 @@ class ControllerCategory {
         })
     }
 
+
+    async deleteCategry(req, res, next) {
+        let CONNECT = getCloud();
+        let { id } = req.body;
+
+        let PRODUCER = configQueue.CATEGORY.DELETE.PRODUCER;
+        let CONSUMER = configQueue.CATEGORY.DELETE.CONSUMER;
+
+        let payload = {id};
+
+        await AmqpProducer.producer(CONNECT, PRODUCER, JSON.stringify(payload));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, async (information) => {
+            let { status, message, thumbs } = information;
+            let { status: statusFinal, message: messageFinal } = await Servicecategory.deleteThumbsCategory({thumbs});
+            if(!status || !statusFinal) throw new BadRequestError(message)
+            new Created(messageFinal).response(res);
+        })
+    }
+
     /**
      * UPLOAD CATEGORY THUMB
      * @param {*} req 
