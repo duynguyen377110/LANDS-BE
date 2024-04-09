@@ -4,6 +4,8 @@ const getCloud = require("../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
 const configQueue = require("../config/config-queue");
+const { BadRequestError } = require("../core/core-error");
+const { Created } = require("../core/core-sucess");
 
 class ControllerCategory {
 
@@ -31,17 +33,17 @@ class ControllerCategory {
     async getAllCategory(req, res, next) {
         let categories = await Servicecategory.getAllCategory();
 
-        let CONNECT = getCloud();
+        // let CONNECT = getCloud();
         // let REDUCER_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
         // let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;
 
-        await AmqpProducer.producer(CONNECT, 'PRODUCT-NEW-CATEGORY', JSON.stringify({status: true, message: 'Text'}));
-        await AmqpConsumer.consumer(CONNECT, 'REFLY-PRODUCT-NEW-CATEGORY', (information) => {
-            console.log(information);
+        // await AmqpProducer.producer(CONNECT, 'PRODUCT-NEW-CATEGORY', JSON.stringify({status: true, message: 'Text new product'}));
+        // await AmqpConsumer.consumer(CONNECT, 'REFLY-PRODUCT-NEW-CATEGORY', (information) => {
+        //     console.log(information);
 
-            // if(!status) throw new BadRequestError(message)
-            // new Accepted(message).response(res);
-        })
+        //     // if(!status) throw new BadRequestError(message)
+        //     // new Accepted(message).response(res);
+        // })
         return res.status(200).json({status: true, categories});
     }
 
@@ -57,6 +59,38 @@ class ControllerCategory {
         return res.status(200).json({
             status: true,
             category: await Servicecategory.getCategoryById({id})
+        })
+    }
+
+    /**
+     * CREATE CATEGORY
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    async createCategory(req, res, next) {
+        let CONNECT = getCloud();
+        let { title, description } = req.body;
+        let { files } = req;
+
+        let PRODUCER = configQueue.CATEGORY.NEW.PRODUCER;
+        let CONSUMER = configQueue.CATEGORY.NEW.CONSUMER;
+
+        let thumbs = [];
+
+        if(files.length) {
+            files.forEach((thumb) => {
+                thumbs.push(thumb.path)
+            })
+        }
+
+        let payload = {title, description, thumbs};
+
+        await AmqpProducer.producer(CONNECT, PRODUCER, JSON.stringify(payload));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message } = information;
+            if(!status) throw new BadRequestError(message)
+            new Created(message).response(res);
         })
     }
 

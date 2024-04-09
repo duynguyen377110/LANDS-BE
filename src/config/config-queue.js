@@ -54,10 +54,10 @@ const configQueue = {
             COMSUMER_DELETE_USER: 'REFLY-AUTH-DELETE-USER'
         }
     },
-    PRODUCT: {
-        CATEGORY: {
-            REDUCER_CATEGORY: 'PRODUCT-NEW-CATEGORY',
-            COMSUMER_CATEGORY: 'REFLY-PRODUCT-NEW-CATEGORY'
+    CATEGORY: {
+        NEW: {
+            PRODUCER: "NEW-CATEGORY",
+            CONSUMER: "REFLY-NEW-CATEGORY"
         }
     }
 }
