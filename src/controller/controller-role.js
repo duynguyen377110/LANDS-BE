@@ -30,7 +30,7 @@ class ControllerRole {
             let metadata = {
                 roles
             }
-            new Ok("Get roles success").response(res, metadata);
+            return new Ok("Get roles success").response(res, metadata);
         })
     }
 
@@ -54,7 +54,7 @@ class ControllerRole {
             let metadata = {
                 role
             }
-            new Ok("Get role success").response(res, metadata);
+            return new Ok("Get role success").response(res, metadata);
         })
     }
 
@@ -79,7 +79,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new  Created(message).response(res);
+            return new  Created(message).response(res);
         })
     }
 
@@ -104,7 +104,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Accepted(message).response(res);
+            return new Accepted(message).response(res);
         })
     }
 
@@ -129,7 +129,7 @@ class ControllerRole {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Accepted(message).response(res);
+            return new Accepted(message).response(res);
         })
     }
 }
