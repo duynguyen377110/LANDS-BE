@@ -5,7 +5,7 @@ const AmqpProducer = require("../amqp/amqp-reducer");
 const AmqpConsumer = require("../amqp/amqp-consumer");
 const configQueue = require("../config/config-queue");
 const { BadRequestError } = require("../core/core-error");
-const { Created } = require("../core/core-sucess");
+const { Created, Accepted } = require("../core/core-sucess");
 
 class ControllerProduct {
 
@@ -67,6 +67,32 @@ class ControllerProduct {
 
             if(!status) throw new BadRequestError(message)
             return new Created(message).response(res);
+        })
+    }
+
+    /**
+     * DELETE PRODUCT
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next
+     * @returns 
+     */
+    async deleteProduct(req, res, next) {
+        let CONNECT = getCloud();
+        let { id } = req.body;
+
+        let PRODUCER = configQueue.PRODUCT.DELETE.PRODUCER;
+        let CONSUMER = configQueue.PRODUCT.DELETE.CONSUMER;
+
+        let payload = { id };
+
+        await AmqpProducer.producer(CONNECT, PRODUCER, JSON.stringify(payload));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, async(information) => {
+            let { status, message, thumbs } = information;
+            let { status: statusFinal, message: messageFinal } = await ServiceProduct.deleteThumbsProduct({thumbs});
+
+            if(!status || !statusFinal) throw new BadRequestError(message)
+            return new Accepted(messageFinal).response(res);
         })
     }
 

@@ -72,6 +72,10 @@ const configQueue = {
         NEW: {
             PRODUCER: "NEW-PRODUCT",
             CONSUMER: "REFLY-NEW-PRODUCT"
+        },
+        DELETE: {
+            PRODUCER: "DELETE-PRODUCT",
+            CONSUMER: "REFLY-DELETE-PRODUCT"
         }
     }
 }
