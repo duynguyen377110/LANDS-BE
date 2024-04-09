@@ -5,7 +5,7 @@ const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
 router.post("/", MiddlewareException.except(ControllerProduct.createProduct));
-router.patch("/", MiddlewareException.except(ControllerProduct.uploadProductThumb));
+router.patch("/", MiddlewareException.except(ControllerProduct.updateProduct));
 router.delete('/', MiddlewareException.except(ControllerProduct.deleteProduct));
 
 module.exports = router;

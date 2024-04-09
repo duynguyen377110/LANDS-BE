@@ -71,6 +71,39 @@ class ControllerProduct {
     }
 
     /**
+     * UPDATE PRODUCT
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async updateProduct(req, res, next) {
+        let CONNECT = getCloud();
+        let {id, productOwner, address, contact, landArea, price, category} = req.body;
+        let { files } = req;
+
+        let PRODUCER = configQueue.PRODUCT.UPDATE.PRODUCER;
+        let CONSUMER = configQueue.PRODUCT.UPDATE.CONSUMER;
+
+        let thumbs = [];
+        if(files.length) {
+            files.forEach((thumb) => {
+                thumbs.push(thumb.path);
+            })
+        }
+
+        let payload = {id, productOwner, address, contact, landArea, price, category, thumbs};
+
+        await AmqpProducer.producer(CONNECT, PRODUCER, JSON.stringify(payload));
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message } = information;
+
+            if(!status) throw new BadRequestError(message)
+            return new Created(message).response(res);
+        })
+    }
+
+    /**
      * DELETE PRODUCT
      * @param {*} req 
      * @param {*} res 
@@ -94,36 +127,6 @@ class ControllerProduct {
             if(!status || !statusFinal) throw new BadRequestError(message)
             return new Accepted(messageFinal).response(res);
         })
-    }
-
-    /**
-     * UPLOAD PRODUCT THUMB
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async uploadProductThumb(req, res, next) {
-        let { files } = req;
-        let thumbs = [];
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
-        return res.status(200).json({status: true, message: 'Upload thumbs', thumbs});
-    }
-
-    /**
-     * DELETE PRODUCT THUMB
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     */
-    async deleteProductThumb(req, res, next) {
-        let { thumbs } = req.body;
-        let { status, message } = await ServiceProduct.deleteThumbsProduct({thumbs});
-        return res.status(200).json({status, message});
     }
 }
 
