@@ -82,7 +82,7 @@ class ControllerCategory {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
             if(!status) throw new BadRequestError(message)
-            new Created(message).response(res);
+            return new Created(message).response(res);
         })
     }
 
@@ -117,7 +117,7 @@ class ControllerCategory {
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
             if(!status) throw new BadRequestError(message)
-            new Accepted(message).response(res);
+            return new Accepted(message).response(res);
         })
     }
 
@@ -144,7 +144,7 @@ class ControllerCategory {
             let { status, message, thumbs } = information;
             let { status: statusFinal, message: messageFinal } = await Servicecategory.deleteThumbsCategory({thumbs});
             if(!status || !statusFinal) throw new BadRequestError(message)
-            new Created(messageFinal).response(res);
+            return new Created(messageFinal).response(res);
         })
     }
 }

@@ -32,7 +32,7 @@ class ControllerUser {
             let metadata = {
                 users
             }
-            new Ok(message).response(res, metadata)
+            return new Ok(message).response(res, metadata)
         })
     }
 
@@ -58,7 +58,7 @@ class ControllerUser {
             let metadata = {
                 user
             }
-            new Ok(message).response(res, metadata)
+            return new Ok(message).response(res, metadata)
         })
     }
 
@@ -83,7 +83,7 @@ class ControllerUser {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Created(message).response(res);
+            return new Created(message).response(res);
         })
     }
 
@@ -107,7 +107,7 @@ class ControllerUser {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Accepted(message).response(res);
+            return new Accepted(message).response(res);
         })
     }
 
@@ -132,7 +132,7 @@ class ControllerUser {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Accepted(message).response(res);
+            return new Accepted(message).response(res);
         })
     }
 }

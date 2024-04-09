@@ -21,7 +21,7 @@ const ModelProduct = new Schema({
         default: ''
     },
     price: {
-        type: Schema.Types.Decimal128,
+        type: String,
         default: 0
     },
     thumbs: [
