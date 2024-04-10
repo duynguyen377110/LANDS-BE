@@ -1,9 +1,9 @@
 "user strict"
 const express = require("express");
-const ControllerUser = require("../../controller/controller-user");
+const ControllerCommonUser = require("../../controller/common/controller-common-user");
 const router = express.Router();
 
-router.get("/all", ControllerUser.getAll);
-router.get("/:id", ControllerUser.getUserById);
+router.get("/all", ControllerCommonUser.getAll);
+router.get("/:id", ControllerCommonUser.getUserById);
 
 module.exports = router;

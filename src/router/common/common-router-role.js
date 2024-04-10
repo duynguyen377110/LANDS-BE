@@ -1,10 +1,10 @@
 "use strict"
 const express = require('express');
-const ControllerRole = require("../../controller/controller-role");
+const ControllerCommonRole = require("../../controller/common/controller-common-role");
 const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
-router.get("/all", MiddlewareException.except(ControllerRole.getAllRole));
-router.get("/:id", ControllerRole.getRoleById);
+router.get("/all", MiddlewareException.except(ControllerCommonRole.getAll));
+router.get("/:id", MiddlewareException.except(ControllerCommonRole.getRoleById));
 
 module.exports = router;
