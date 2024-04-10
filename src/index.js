@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const compression = require('compression');
 
 const router = require("./router/router");
+const  routerAdmin = require("../src/router/admin/admin-router");
 const MiddlewareCors = require('./middleware/middleware-cors');
 const ConfigSwagger = require("./config/config-swagger");
 const app = express();
@@ -23,6 +24,7 @@ app.use(helmet());
 app.use(compression());
 
 app.use("/api/v1", router);
+app.use("/api/v1/admin", routerAdmin);
 
 app.use((req, res, next) => {
     let error = Error("Not found");

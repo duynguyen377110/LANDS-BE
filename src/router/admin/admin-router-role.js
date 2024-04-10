@@ -1,7 +1,7 @@
 "use strict"
 const express = require("express");
 const validator = require("express-validator");
-const ControllerRole = require("../../controller/controller-role");
+const ControllerAdminRole = require("../../controller/admin/controller-admin-role");
 const router = express.Router();
 const MiddlewareException = require("../../middleware/middleware-exception");
 
@@ -10,7 +10,7 @@ router.post("/" ,[
     .check("title")
     .notEmpty()
     .withMessage("Title not empty"),
-], MiddlewareException.except(ControllerRole.createRole));
+], MiddlewareException.except(ControllerAdminRole.createRole));
 
 router.patch("/",[
     validator
@@ -20,7 +20,7 @@ router.patch("/",[
     validator
     .check("title").notEmpty()
     .withMessage("Title not empty"),
-], MiddlewareException.except(ControllerRole.updateRole));
+], MiddlewareException.except(ControllerAdminRole.updateRole));
 
 
 router.delete('/',[
@@ -28,6 +28,6 @@ router.delete('/',[
     .check("id").notEmpty()
     .withMessage("Id not empty"),
 
-], MiddlewareException.except(ControllerRole.deleteRole));
+], MiddlewareException.except(ControllerAdminRole.deleteRole));
 
 module.exports = router;

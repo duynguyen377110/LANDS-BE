@@ -1,7 +1,7 @@
 "use strict"
 const express = require("express");
 const validator = require("express-validator");
-const ControllerCategory = require("../../controller/controller-category");
+const ControllerAdminCategory = require("../../controller/admin/controller-admin-category");
 const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
@@ -13,7 +13,7 @@ router.post('/', [
     validator
     .check("description").notEmpty()
     .withMessage("Description not empty"),
-], MiddlewareException.except(ControllerCategory.createCategory));
+], MiddlewareException.except(ControllerAdminCategory.createCategory));
 
 router.patch('/',[
     validator
@@ -27,12 +27,12 @@ router.patch('/',[
     validator
     .check("description").notEmpty()
     .withMessage("Description not empty"),
-], MiddlewareException.except(ControllerCategory.updateCategory));
+], MiddlewareException.except(ControllerAdminCategory.updateCategory));
 
 router.delete('/',[
     validator
     .check("id").notEmpty()
     .withMessage("Id not empty"),
-], MiddlewareException.except(ControllerCategory.deleteCategry));
+], MiddlewareException.except(ControllerAdminCategory.deleteCategry));
 
 module.exports = router;
