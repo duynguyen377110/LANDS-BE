@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const validator = require("express-validator");
-const ControllerAccess = require("../../controller/controller-access");
+const ControllerAdminAccess = require("../../controller/admin/controller-admin-access");
 const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
@@ -26,7 +26,7 @@ router.post("/signin", [
         return true;
     })
 
-], MiddlewareException.except(ControllerAccess.adminSignin));
+], MiddlewareException.except(ControllerAdminAccess.adminSignin));
 
 router.post("/signout",[
     validator
@@ -35,6 +35,6 @@ router.post("/signout",[
     .withMessage("E-mail not empty")
     .isEmail()
     .withMessage("E-mail invalid"),
-], MiddlewareException.except(ControllerAccess.adminSignout));
+], MiddlewareException.except(ControllerAdminAccess.adminSignout));
 
 module.exports = router;

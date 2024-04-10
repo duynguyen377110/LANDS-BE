@@ -6,7 +6,6 @@ const swaggerUi = require('swagger-ui-express');
 const helmet = require("helmet");
 const compression = require('compression');
 
-const router = require("./router/router");
 const routerAdmin = require("../src/router/admin/admin-router");
 const routerCommon = require("../src/router/common/common-router");
 const MiddlewareCors = require('./middleware/middleware-cors');
@@ -24,7 +23,6 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(compression());
 
-app.use("/api/v1", router);
 app.use("/api/v1/admin", routerAdmin);
 app.use("/api/v1/common", routerCommon)
 

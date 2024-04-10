@@ -1,8 +1,6 @@
 "use strict"
-const { validationResult } = require("express-validator");
 const ServiceQueryRole = require("../../service/service-query-role");
-const { BadRequestError } = require("../../core/core-error");
-const { Ok, Created, Accepted } = require("../../core/core-sucess");
+const { Ok } = require("../../core/core-sucess");
 
 class ControllerCommonRole {
 

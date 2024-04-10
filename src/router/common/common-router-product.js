@@ -1,9 +1,10 @@
 "use strict"
 const express = require("express");
-const ControllerProduct = require("../../controller/controller-product");
+const ControllerCommonProduct = require("../../controller/common/controller-common-product");
+const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
-router.get("/all", ControllerProduct.getAll);
-router.get("/:id", ControllerProduct.getProductById);
+router.get("/all", MiddlewareException.except(ControllerCommonProduct.getAll));
+router.get("/:id", MiddlewareException.except(ControllerCommonProduct.getProductById));
 
 module.exports = router;

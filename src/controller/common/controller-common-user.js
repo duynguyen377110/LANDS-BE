@@ -1,8 +1,6 @@
 "use strict"
-const { validationResult } = require("express-validator");
 const ServiceQueryUser = require("../../service/service-query-user");
-const { BadRequestError } = require("../../core/core-error");
-const { Ok, Created, Accepted } = require("../../core/core-sucess");
+const { Ok } = require("../../core/core-sucess");
 
 class ControllerCommonUser {
 
