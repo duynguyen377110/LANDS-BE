@@ -1,7 +1,7 @@
 'use strict'
 const express = require("express");
 const validator = require("express-validator");
-const ControllerUser = require("../../controller/controller-user");
+const ControllerAdminUser = require("../../controller/admin/controller-admin-user");
 const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
@@ -48,7 +48,7 @@ router.post("/", [
     .notEmpty()
     .withMessage("User role not empty")
 
-], MiddlewareException.except(ControllerUser.createUser));
+], MiddlewareException.except(ControllerAdminUser.createUser));
 
 router.patch("/",[
     validator
@@ -84,13 +84,13 @@ router.patch("/",[
     .check("role")
     .notEmpty()
     .withMessage("User role not empty")
-], MiddlewareException.except(ControllerUser.updateUser));
+], MiddlewareException.except(ControllerAdminUser.updateUser));
 
 router.delete("/",[
     validator
     .check("id")
     .notEmpty()
     .withMessage("User token not empty"),
-], MiddlewareException.except(ControllerUser.deleteUser));
+], MiddlewareException.except(ControllerAdminUser.deleteUser));
 
 module.exports = router;

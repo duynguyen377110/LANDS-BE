@@ -1,11 +1,11 @@
 "use strict"
 const express = require("express");
-const ControllerProduct = require("../../controller/controller-product");
+const ControllerAdminProduct = require("../../controller/admin/controller-admin-product");
 const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
-router.post("/", MiddlewareException.except(ControllerProduct.createProduct));
-router.patch("/", MiddlewareException.except(ControllerProduct.updateProduct));
-router.delete('/', MiddlewareException.except(ControllerProduct.deleteProduct));
+router.post("/", MiddlewareException.except(ControllerAdminProduct.createProduct));
+router.patch("/", MiddlewareException.except(ControllerAdminProduct.updateProduct));
+router.delete('/', MiddlewareException.except(ControllerAdminProduct.deleteProduct));
 
 module.exports = router;
