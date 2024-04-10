@@ -5,7 +5,7 @@ const AmqpProducer = require("../../amqp/amqp-reducer");
 const AmqpConsumer = require("../../amqp/amqp-consumer");
 const configQueue = require("../../config/config-queue");
 const { BadRequestError } = require("../../core/core-error");
-const { Ok, Created, Accepted } = require("../../core/core-sucess");
+const { Created, Accepted } = require("../../core/core-sucess");
 
 class ControllerAdminRole {
 

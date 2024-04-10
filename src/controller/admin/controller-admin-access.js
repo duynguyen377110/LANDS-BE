@@ -1,60 +1,15 @@
 "use strict"
 const { validationResult } = require("express-validator");
-const getCloud = require("../amqp/amqp-core").getCloud;
-const AmqpProducer = require("../amqp/amqp-reducer");
-const AmqpConsumer = require("../amqp/amqp-consumer");
-const configQueue = require("../config/config-queue");
-const { BadRequestError } = require("../core/core-error");
-const { Ok } = require("../core/core-sucess");
+const getCloud = require("../../amqp/amqp-core").getCloud;
+const AmqpProducer = require("../../amqp/amqp-reducer");
+const AmqpConsumer = require("../../amqp/amqp-consumer");
+const configQueue = require("../../config/config-queue");
+const { BadRequestError } = require("../../core/core-error");
+const { Ok } = require("../../core/core-sucess");
 
-class ControllerAccess {
+class ControllerAdminAccess {
 
     constructor() { }
-
-    /**
-     * CLIENT SIGNUP USER ACCOUNT
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async clientSignup(req, res, next) {
-        // let { fullName, email, password, phone, address } = req.body;
-        // let { status, message } = await ServiceAccess.userSignup({fullName, email, password, phone, address});
-        // if(!status) {
-        //     return res.status(400).json({status, message});
-        // }
-        // return res.status(200).json({status, message});
-    }
-
-    /**
-     * CLIENT SIGNIN
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async clientSignin(req, res, next) {
-        // let { email, password } = req.body;
-        // let { status, message, access } = await ServiceAccess.userSignin({email, password});
-
-        // if(!status) {
-        //     return res.status(400).json({status, message});
-        // }
-
-        // return res.status(200).json({
-        //     status,
-        //     message,
-        //     metadata: {
-        //         userId: access.user._id,
-        //         email: access.user.email,
-        //         phone: access.user.phone,
-        //         address: access.user.address,
-        //         accessToken: access.accessToken,
-        //         refreshToken: access.refreshToken
-        //     }
-        // });
-    }
 
     /**
      * ADMIN SIGNIN
@@ -88,7 +43,7 @@ class ControllerAccess {
                 refreshToken: access.refreshToken
             }
 
-            new Ok(message).response(res, metadata);
+            return  new Ok(message).response(res, metadata);
         })
     }
 
@@ -114,10 +69,10 @@ class ControllerAccess {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Ok(message).response(res);
+            return new Ok(message).response(res);
         })
     }
 
 }
 
-module.exports = new ControllerAccess();
+module.exports = new ControllerAdminAccess();

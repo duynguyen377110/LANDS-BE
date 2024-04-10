@@ -1,11 +1,12 @@
 "use strict"
 const express = require("express");
-const ControllerCategory = require("../../controller/controller-category");
+const ControllerCommonCategory = require("../../controller/common/controller-common-category");
+const MiddlewareException = require("../../middleware/middleware-exception");
 const router = express.Router();
 
-router.get('/amount', ControllerCategory.getAmount);
-router.get("/all", ControllerCategory.getAllCategory);
-router.get("/:id", ControllerCategory.getCategoryById);
+router.get('/amount', MiddlewareException.except(ControllerCommonCategory.getAmount));
+router.get("/all", MiddlewareException.except(ControllerCommonCategory.getAllCategory));
+router.get("/:id", MiddlewareException.except(ControllerCommonCategory.getCategoryById));
 
 
 module.exports = router;
