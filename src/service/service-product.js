@@ -9,12 +9,38 @@ class ServiceProduct {
     constructor() { }
 
     /**
+     * GET AMOUNT PRODUCT
+     * @returns 
+     */
+    async getAmountProduct() {
+        try {
+            return await ModelProduct.find({}).count().lean();
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
      * GET ALL PRODUCT
      * @returns 
      */
     async getAll() {
         try {
             return await ModelProduct.find({}).lean();
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
+     * GET PRODUCT WITH QUANTITY
+     * @param {*} start 
+     * @param {*} limit 
+     * @returns 
+     */
+    async getProductLimit(start = 0, limit = 10) {
+        try {
+            return await ModelProduct.find({}).skip(start).limit(limit).lean();
         } catch (error) {
             throw new InternalServerError(error.message);
         }
@@ -35,26 +61,6 @@ class ServiceProduct {
                             }
                         ])
                         .lean();
-
-        } catch (error) {
-            throw new InternalServerError(error.message);
-        }
-    }
-
-    /**
-     * FIND PRODUCT BY ID
-     * @param {*} id 
-     * @returns 
-     */
-    async findProductById(id = '') {
-        try {
-            return await ModelProduct
-                        .findById(id)
-                        .populate([
-                            {
-                                path: 'categories',
-                            }
-                        ]);
 
         } catch (error) {
             throw new InternalServerError(error.message);

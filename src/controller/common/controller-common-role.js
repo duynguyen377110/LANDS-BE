@@ -1,5 +1,5 @@
 "use strict"
-const ServiceQueryRole = require("../../service/service-query-role");
+const ServiceQueryRole = require("../../service/service-role");
 const { Ok } = require("../../core/core-sucess");
 
 class ControllerCommonRole {
