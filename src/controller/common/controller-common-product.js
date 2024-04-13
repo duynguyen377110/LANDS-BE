@@ -7,6 +7,18 @@ class ControllerCommonProduct {
     constructor() { }
 
     /**
+     * GET AMOUNT PRODUCT
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getAmountProduct(req, res, next) {
+        let amount = await ServiceProduct.getAmountProduct();
+        return new Ok().response(res, {amount});
+    }
+
+    /**
      * GET ALL PRODUCT
      * @param {*} req 
      * @param {*} res 
@@ -15,6 +27,19 @@ class ControllerCommonProduct {
      */
     async getAll(req, res, next) {
         let products = await ServiceProduct.getAll();
+        return new Ok().response(res, {products});
+    }
+
+    /**
+     * GET PRODUCT WITH QUANTITY
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getProductLimit(req, res, next) {
+        let { start, limit } = req.params;
+        let products = await ServiceProduct.getProductLimit(start, limit);
         return new Ok().response(res, {products});
     }
 

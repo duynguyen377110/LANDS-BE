@@ -1,5 +1,5 @@
 "use strict"
-const ServiceQueryUser = require("../../service/service-query-user");
+const ServiceQueryUser = require("../../service/service-user");
 const { Ok } = require("../../core/core-sucess");
 
 class ControllerCommonUser {
