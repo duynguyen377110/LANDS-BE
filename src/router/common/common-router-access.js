@@ -1,9 +1,8 @@
 "use strict"
 const express = require('express');
-const ControllerAccess = require("../../controller/controller-access");
+const ControllerCommonAccess = require("../../controller/common/controller-common-access");
 const router = express.Router();
 
-router.post('/signup', ControllerAccess.clientSignup);
-router.post('/signin', ControllerAccess.clientSignin);
+router.post('/signup', ControllerCommonAccess.signup);
 
 module.exports = router;
