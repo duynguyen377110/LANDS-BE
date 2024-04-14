@@ -63,7 +63,8 @@ class ControllerCommonAccess {
                 phone: access.user.phone,
                 address: access.user.address,
                 accessToken: access.accessToken,
-                refreshToken: access.refreshToken
+                refreshToken: access.refreshToken,
+                slug: access.slug
             }
 
             new Ok(message).response(res, metadata);
