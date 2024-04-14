@@ -65,11 +65,11 @@ class ControllerAdminAccess {
         let CONSUMER = configQueue.AUTH.SIGNOUT.COMSUMER_SIGNOUT;
 
         await AmqpProducer.producer(CONNECT, REDUCER_SIGNOUT, JSON.stringify({email}));
-        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
-            if(!status) throw new BadRequestError(message)
-            new Ok(message).response(res);
+            if(!status) throw new BadRequestError(message);
+            return new Ok(message).response(res);
         })
     }
 

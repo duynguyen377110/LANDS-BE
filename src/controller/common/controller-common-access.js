@@ -87,11 +87,11 @@ class ControllerCommonAccess {
         let { email } = req.body;
 
         await AmqpProducer.producer(CONNECT, REDUCER_SIGNOUT, JSON.stringify({email}));
-        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            new Ok(message).response(res);
+            return new Ok(message).response(res);
         })
     }
 
