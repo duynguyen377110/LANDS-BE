@@ -22,12 +22,12 @@ class ControllerAdminRole {
         const error = validationResult(req);
         if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
 
-        let { title } = req.body;
+        let { title, slug } = req.body;
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.ROLE.REDUCER_ROLE;
         let CONSUMER = configQueue.AUTH.ROLE.COMSUMER_ROLE;
 
-        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({title}));
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({title, slug}));
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
@@ -47,12 +47,12 @@ class ControllerAdminRole {
         let error = validationResult(req);
         if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
         
-        let { id, title } = req.body;
+        let { id, title, slug } = req.body;
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.UPDATE_ROLE.REDUCER_UPDATE_ROLE;
         let CONSUMER = configQueue.AUTH.UPDATE_ROLE.COMSUMER_UPDATE_ROLE;
 
-        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id, title}));
+        await AmqpProducer.producer(CONNECT, REDUCER_ROLE, JSON.stringify({id, title, slug}));
         await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 

@@ -10,6 +10,11 @@ router.post("/" ,[
     .check("title")
     .notEmpty()
     .withMessage("Title not empty"),
+
+    validator
+    .check("slug")
+    .notEmpty()
+    .withMessage("Slug not empty"),
 ], MiddlewareException.except(ControllerAdminRole.createRole));
 
 router.patch("/",[
@@ -20,6 +25,11 @@ router.patch("/",[
     validator
     .check("title").notEmpty()
     .withMessage("Title not empty"),
+
+    validator
+    .check("slug")
+    .notEmpty()
+    .withMessage("Slug not empty"),
 ], MiddlewareException.except(ControllerAdminRole.updateRole));
 
 

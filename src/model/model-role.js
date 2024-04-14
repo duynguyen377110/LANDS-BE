@@ -8,6 +8,10 @@ const ModelRole = new Schema({
         type: String,
         required: true
     },
+    slug: {
+        type: String,
+        required: true
+    },
     users: [
         {
             type: Schema.Types.ObjectId,

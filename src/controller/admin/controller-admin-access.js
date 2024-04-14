@@ -29,21 +29,22 @@ class ControllerAdminAccess {
         let CONSUMER = configQueue.AUTH.SIGNIN.COMSUMER_SIGNIN;
 
         await AmqpProducer.producer(CONNECT, REDUCER_SIGNIN, JSON.stringify({email, password}));
-        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message, access } = information;
 
             if(!status) throw new BadRequestError(message)
-
+            
             let metadata = {
                 userId: access.user._id,
                 email: access.user.email,
                 phone: access.user.phone,
                 address: access.user.address,
                 accessToken: access.accessToken,
-                refreshToken: access.refreshToken
+                refreshToken: access.refreshToken,
+                slug: access.slug
             }
 
-            new Ok(message).response(res, metadata);
+            return new Ok(message).response(res, metadata);
         })
     }
 
