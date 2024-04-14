@@ -16,11 +16,11 @@ class ControllerCommonAccess {
         let { fullName, email, password, phone, address } = req.body;
 
         await AmqpProducer.producer(CONNECT, REDUCER, JSON.stringify({ fullName, email, password, phone, address}));
-        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
-            let { status, message } = information;
+        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+            let { status, message, access } = information;
 
             if(!status) throw new BadRequestError(message)
-            return new Ok(message).response(res);
+            new Ok(message).response(res, {access});
         })
     }
 

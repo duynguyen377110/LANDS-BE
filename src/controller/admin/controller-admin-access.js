@@ -29,7 +29,7 @@ class ControllerAdminAccess {
         let CONSUMER = configQueue.AUTH.SIGNIN.COMSUMER_SIGNIN;
 
         await AmqpProducer.producer(CONNECT, REDUCER_SIGNIN, JSON.stringify({email, password}));
-        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message, access } = information;
 
             if(!status) throw new BadRequestError(message)
@@ -43,7 +43,7 @@ class ControllerAdminAccess {
                 refreshToken: access.refreshToken
             }
 
-            return  new Ok(message).response(res, metadata);
+            new Ok(message).response(res, metadata);
         })
     }
 
@@ -65,7 +65,7 @@ class ControllerAdminAccess {
         let CONSUMER = configQueue.AUTH.SIGNOUT.COMSUMER_SIGNOUT;
 
         await AmqpProducer.producer(CONNECT, REDUCER_SIGNOUT, JSON.stringify({email}));
-        await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
+        return await AmqpConsumer.consumer(CONNECT, CONSUMER, (information) => {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
