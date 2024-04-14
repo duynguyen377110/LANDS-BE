@@ -91,7 +91,7 @@ class ControllerCommonAccess {
             let { status, message } = information;
 
             if(!status) throw new BadRequestError(message)
-            return new Ok(message).response(res);
+            new Ok(message).response(res);
         })
     }
 
