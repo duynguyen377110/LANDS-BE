@@ -1,6 +1,6 @@
 "use strict"
 const ServiceUser = require("../service/service-user");
-const { ConflictError } = require("../core/core-error");
+const { ConflictError, NotFound } = require("../core/core-error");
 
 class MiddlewareVerify {
 
@@ -17,6 +17,21 @@ class MiddlewareVerify {
         let user = await ServiceUser.getUserByEmail(email);
         if(user) {
             throw new ConflictError("E-mail already exist");
+        }
+        next();
+    }
+
+    /**
+     * CHECK USER ACCOUNT EXIST
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    async userExist(req, res, next) {
+        let { email } = req.body;
+        let user = await ServiceUser.getUserByEmail(email);
+        if(!user) {
+            throw new NotFound("Not found user");
         }
         next();
     }

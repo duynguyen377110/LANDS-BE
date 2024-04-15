@@ -5,6 +5,10 @@ const config = {
         status: 400,
         message: "Bad request"
     },
+    notFound: {
+        status: 404,
+        message: "Not found"
+    },
     conflict: {
         status: 409,
         message: "Conflic error"
