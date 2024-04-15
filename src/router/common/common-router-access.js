@@ -3,6 +3,7 @@ const express = require('express');
 const validator = require("express-validator");
 const ControllerCommonAccess = require("../../controller/common/controller-common-access");
 const MiddlewareException = require("../../middleware/middleware-exception");
+const MiddlewareVerify = require("../../middleware/middleware-verify");
 const router = express.Router();
 
 router.post('/signup',[
@@ -42,7 +43,9 @@ router.post('/signup',[
     .check("address")
     .notEmpty()
     .withMessage("Address not empty"),
-], MiddlewareException.except(ControllerCommonAccess.signup));
+],
+MiddlewareException.except(MiddlewareVerify.emailExist),
+MiddlewareException.except(ControllerCommonAccess.signup));
 
 router.post("/signin", [
     validator
