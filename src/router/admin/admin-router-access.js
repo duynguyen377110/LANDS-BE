@@ -3,6 +3,7 @@ const express = require("express");
 const validator = require("express-validator");
 const ControllerAdminAccess = require("../../controller/admin/controller-admin-access");
 const MiddlewareException = require("../../middleware/middleware-exception");
+const MiddlewareVerify = require("../../middleware/middleware-verify");
 const router = express.Router();
 
 router.post("/signin", [
@@ -26,7 +27,9 @@ router.post("/signin", [
         return true;
     })
 
-], MiddlewareException.except(ControllerAdminAccess.adminSignin));
+],
+MiddlewareException.except(MiddlewareVerify.userExist),
+MiddlewareException.except(ControllerAdminAccess.adminSignin));
 
 router.post("/signout",[
     validator
