@@ -6,6 +6,19 @@ class ServiceQueryUser {
     constructor() { }
 
     /**
+     * GET USER AMOUNT
+     * @returns 
+     */
+    async getAmount() {
+        try {
+            return await ModelUser.find().count().lean();
+
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
      * GET ALL USER
      * @returns 
      */

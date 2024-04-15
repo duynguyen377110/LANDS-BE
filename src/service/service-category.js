@@ -8,6 +8,10 @@ class ServiceCategory {
 
     constructor() { }
 
+    /**
+     * GET CATEGORY AMOUNT
+     * @returns 
+     */
     async getAmount() {
         try {
             return await ModelCategory.find().count().lean();
@@ -17,6 +21,10 @@ class ServiceCategory {
         }
     }
 
+    /**
+     * GET ALL CATEGORY
+     * @returns 
+     */
     async getAllCategory() {
         try {
             return await ModelCategory.find().lean();
