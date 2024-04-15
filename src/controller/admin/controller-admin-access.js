@@ -33,18 +33,7 @@ class ControllerAdminAccess {
             let { status, message, access } = information;
 
             if(!status) throw new BadRequestError(message)
-            
-            let metadata = {
-                userId: access.user._id,
-                email: access.user.email,
-                phone: access.user.phone,
-                address: access.user.address,
-                accessToken: access.accessToken,
-                refreshToken: access.refreshToken,
-                slug: access.slug
-            }
-
-            return new Ok(message).response(res, metadata);
+            return new Ok(message).response(res, {access});
         })
     }
 
