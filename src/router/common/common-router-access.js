@@ -68,7 +68,9 @@ router.post("/signin", [
         return true;
     })
 
-], MiddlewareException.except(ControllerCommonAccess.signin));
+],
+MiddlewareException.except(MiddlewareVerify.userExist),
+MiddlewareException.except(ControllerCommonAccess.signin));
 
 router.post('/signout',[
     validator

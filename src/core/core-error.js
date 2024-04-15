@@ -38,6 +38,12 @@ class LengthRequiredError extends CoreError {
     }
 }
 
+class NotFound extends CoreError {
+    constructor(message = config.notFound.message, status = config.notFound.status) {
+        super(message, status);
+    }
+}
+
 class InternalServerError extends CoreError {
     constructor(message = config.internalServer.message, status = config.internalServer.status) {
         super(message, status)
@@ -46,6 +52,7 @@ class InternalServerError extends CoreError {
 
 module.exports = {
     BadRequestError,
+    NotFound,
     ConflictError,
     ForbiddenError,
     FailedDependencyError,

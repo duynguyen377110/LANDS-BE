@@ -31,7 +31,14 @@ class ServiceQueryUser {
      */
     async getUserByEmail(email = '') {
         try {
-            return await ModelUser.findOne({email: {$eq: email}}).lean();
+            return await ModelUser
+                        .findOne({email: {$eq: email}})
+                        .populate([
+                            {
+                                path: 'role'
+                            }
+                        ])
+                        .lean();
         } catch (error) {
             throw error;
         }
