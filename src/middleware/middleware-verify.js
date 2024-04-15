@@ -33,6 +33,7 @@ class MiddlewareVerify {
         if(!user) {
             throw new NotFound("Not found user");
         }
+        req.user = user;
         next();
     }
 }
