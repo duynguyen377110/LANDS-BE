@@ -14,8 +14,8 @@ class ControllerCategory {
      * @returns 
      */
     async getAmount(req, res, next) {
-        let count = await Servicecategory.getAmount();
-        return new Ok().response(res, {count});
+        let amount = await Servicecategory.getAmount();
+        return new Ok().response(res, {amount});
     }
 
     /**

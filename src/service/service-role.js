@@ -6,6 +6,23 @@ class ServiceQueryRole {
 
     constructor() { }
 
+    /**
+     * GET ROLE AMOUNT
+     * @returns 
+     */
+    async getAmount() {
+        try {
+            return await ModelRole.find().count().lean();
+
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
+     * GET ALL ROLE
+     * @returns 
+     */
     async getAll() {
         try {
             return await ModelRole.find({}).lean();
@@ -14,6 +31,11 @@ class ServiceQueryRole {
         }
     }
 
+    /**
+     * GET ALL ROLE BY ID
+     * @param {*} infor 
+     * @returns 
+     */
     async getRoleById(infor={}) {
         try {
             return await ModelRole.findById(infor.id).lean();

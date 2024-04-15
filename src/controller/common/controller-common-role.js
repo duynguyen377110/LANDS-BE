@@ -7,6 +7,18 @@ class ControllerCommonRole {
     constructor() { }
 
     /**
+     * GET AMOUNT ROLE
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getAmount(req, res, next) {
+        let amount = await ServiceQueryRole.getAmount();
+        return new Ok().response(res, {amount});
+    }
+
+    /**
      * GET ALL ROLE
      * @param {*} req 
      * @param {*} res 

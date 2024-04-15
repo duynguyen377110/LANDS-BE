@@ -7,6 +7,18 @@ class ControllerCommonUser {
     constructor() { }
 
     /**
+     * GET AMOUNT USER
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getAmount(req, res, next) {
+        let amount = await ServiceQueryUser.getAmount();
+        return new Ok().response(res, {amount});
+    }
+
+    /**
      * GET ALL ROLE
      * @param {*} req 
      * @param {*} res 
