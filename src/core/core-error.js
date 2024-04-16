@@ -44,6 +44,12 @@ class NotFound extends CoreError {
     }
 }
 
+class MethodNotAllowed extends CoreError {
+    constructor(message = config.methodNotAllowed.message, status = config.methodNotAllowed.status) {
+        super(message, status);
+    }
+}
+
 class InternalServerError extends CoreError {
     constructor(message = config.internalServer.message, status = config.internalServer.status) {
         super(message, status)
@@ -53,6 +59,7 @@ class InternalServerError extends CoreError {
 module.exports = {
     BadRequestError,
     NotFound,
+    MethodNotAllowed,
     ConflictError,
     ForbiddenError,
     FailedDependencyError,
