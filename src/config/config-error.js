@@ -9,6 +9,10 @@ const config = {
         status: 404,
         message: "Not found"
     },
+    methodNotAllowed: {
+        status: 405,
+        message: "Method not executed"
+    },
     conflict: {
         status: 409,
         message: "Conflic error"

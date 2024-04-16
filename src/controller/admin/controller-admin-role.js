@@ -1,11 +1,13 @@
 "use strict"
 const { validationResult } = require("express-validator");
+const ServiceQueryRole = require("../../service/service-role");
 const getCloud = require("../../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../../amqp/amqp-reducer");
 const AmqpConsumer = require("../../amqp/amqp-consumer");
 const configQueue = require("../../config/config-queue");
-const { BadRequestError } = require("../../core/core-error");
+const { BadRequestError, MethodNotAllowed } = require("../../core/core-error");
 const { Created, Accepted } = require("../../core/core-sucess");
+const { recompileSchema } = require("../../model/model-user");
 
 class ControllerAdminRole {
 
@@ -73,6 +75,10 @@ class ControllerAdminRole {
         if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
 
         let { id } = req.body;
+        let role = await ServiceQueryRole.getRoleById({id});
+
+        if(role.users.length) throw new MethodNotAllowed();
+
         let CONNECT = getCloud();
         let REDUCER_ROLE = configQueue.AUTH.DELETE_ROLE.REDUCER_DELETE_ROLE;
         let CONSUMER = configQueue.AUTH.DELETE_ROLE.COMSUMER_DELETE_ROLE;

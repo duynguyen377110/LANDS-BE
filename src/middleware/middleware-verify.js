@@ -1,6 +1,6 @@
 "use strict"
 const ServiceUser = require("../service/service-user");
-const { ConflictError, NotFound } = require("../core/core-error");
+const { ConflictError, NotFound, ForbiddenError } = require("../core/core-error");
 
 class MiddlewareVerify {
 
@@ -33,6 +33,23 @@ class MiddlewareVerify {
         if(!user) {
             throw new NotFound("Not found user");
         }
+        req.user = user;
+        next();
+    }
+
+    /**
+     * CHECK HEADER ADMIN VALID
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    async adminHeader(req, res, next) {
+        let id = req.get("xxx-admin");
+        if(!id) throw new ForbiddenError("Not permission")
+
+        let user = await ServiceUser.getUserById({id});
+        if(!user) throw new NotFound("Not found user")
+
         req.user = user;
         next();
     }

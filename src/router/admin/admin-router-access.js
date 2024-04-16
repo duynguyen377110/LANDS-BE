@@ -29,9 +29,9 @@ router.post("/signin", [
     })
 
 ],
-MiddlewareException.except(MiddlewareVerify.userExist),
-MiddlewareException.except(MiddlewareAuth.permission),
-MiddlewareException.except(ControllerAdminAccess.adminSignin));
+    MiddlewareException.except(MiddlewareVerify.userExist),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerAdminAccess.adminSignin));
 
 router.post("/signout",[
     validator
@@ -40,6 +40,9 @@ router.post("/signout",[
     .withMessage("E-mail not empty")
     .isEmail()
     .withMessage("E-mail invalid"),
-], MiddlewareException.except(ControllerAdminAccess.adminSignout));
+],
+    MiddlewareException.except(MiddlewareVerify.adminHeader),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerAdminAccess.adminSignout));
 
 module.exports = router;
