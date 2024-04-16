@@ -3,6 +3,8 @@ const express = require("express");
 const validator = require("express-validator");
 const ControllerAdminUser = require("../../controller/admin/controller-admin-user");
 const MiddlewareException = require("../../middleware/middleware-exception");
+const MiddlewareVerify = require("../../middleware/middleware-verify");
+const MiddlewareAuth = require("../../middleware/middleware-auth");
 const router = express.Router();
 
 router.post("/", [
@@ -48,7 +50,10 @@ router.post("/", [
     .notEmpty()
     .withMessage("User role not empty")
 
-], MiddlewareException.except(ControllerAdminUser.createUser));
+],
+    MiddlewareException.except(MiddlewareVerify.adminHeader),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerAdminUser.createUser));
 
 router.patch("/",[
     validator
@@ -84,13 +89,19 @@ router.patch("/",[
     .check("role")
     .notEmpty()
     .withMessage("User role not empty")
-], MiddlewareException.except(ControllerAdminUser.updateUser));
+],
+    MiddlewareException.except(MiddlewareVerify.adminHeader),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerAdminUser.updateUser));
 
 router.delete("/",[
     validator
     .check("id")
     .notEmpty()
     .withMessage("User token not empty"),
-], MiddlewareException.except(ControllerAdminUser.deleteUser));
+],
+    MiddlewareException.except(MiddlewareVerify.adminHeader),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerAdminUser.deleteUser));
 
 module.exports = router;
