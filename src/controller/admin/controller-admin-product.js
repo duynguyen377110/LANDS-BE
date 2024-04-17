@@ -1,4 +1,5 @@
 "use strict"
+const { validationResult } = require("express-validator");
 const ServiceProduct = require("../../service/service-product");
 const getCloud = require("../../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../../amqp/amqp-reducer");
@@ -19,20 +20,15 @@ class ControllerAdminProduct {
      * @returns 
      */
     async createProduct(req, res, next) {
+        let error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let { productOwner, address, contact, landArea, price, category } = req.body;
-        let { files } = req;
+        let { thumbs } = req;
 
         let PRODUCER = configQueue.PRODUCT.NEW.PRODUCER;
         let CONSUMER = configQueue.PRODUCT.NEW.CONSUMER;
-
-        let thumbs = [];
-
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
 
         let payload = {productOwner, address, contact, landArea, price, category, thumbs};
 
@@ -53,19 +49,15 @@ class ControllerAdminProduct {
      * @returns 
      */
     async updateProduct(req, res, next) {
+        let error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let {id, productOwner, address, contact, landArea, price, category} = req.body;
-        let { files } = req;
+        let { thumbs } = req;
 
         let PRODUCER = configQueue.PRODUCT.UPDATE.PRODUCER;
         let CONSUMER = configQueue.PRODUCT.UPDATE.CONSUMER;
-
-        let thumbs = [];
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path);
-            })
-        }
 
         let payload = {id, productOwner, address, contact, landArea, price, category, thumbs};
 
@@ -86,6 +78,9 @@ class ControllerAdminProduct {
      * @returns 
      */
     async deleteProduct(req, res, next) {
+        let error = validationResult(req);
+        if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
+
         let CONNECT = getCloud();
         let { id } = req.body;
 
