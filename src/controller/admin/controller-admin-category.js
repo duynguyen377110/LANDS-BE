@@ -5,7 +5,7 @@ const getCloud = require("../../amqp/amqp-core").getCloud;
 const AmqpProducer = require("../../amqp/amqp-reducer");
 const AmqpConsumer = require("../../amqp/amqp-consumer");
 const configQueue = require("../../config/config-queue");
-const { BadRequestError } = require("../../core/core-error");
+const { BadRequestError, MethodNotAllowed } = require("../../core/core-error");
 const { Created, Accepted } = require("../../core/core-sucess");
 
 class ControllerAdminCategory {
@@ -24,18 +24,10 @@ class ControllerAdminCategory {
 
         let CONNECT = getCloud();
         let { title, description } = req.body;
-        let { files } = req;
+        let { thumbs } = req;
 
         let PRODUCER = configQueue.CATEGORY.NEW.PRODUCER;
         let CONSUMER = configQueue.CATEGORY.NEW.CONSUMER;
-
-        let thumbs = [];
-
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
 
         let payload = {title, description, thumbs};
 
@@ -59,18 +51,10 @@ class ControllerAdminCategory {
 
         let CONNECT = getCloud();
         let { id, title, description } = req.body;
-        let { files } = req;
+        let { thumbs } = req;
 
         let PRODUCER = configQueue.CATEGORY.UPDATE.PRODUCER;
         let CONSUMER = configQueue.CATEGORY.UPDATE.CONSUMER;
-
-        let thumbs = [];
-
-        if(files.length) {
-            files.forEach((thumb) => {
-                thumbs.push(thumb.path)
-            })
-        }
 
         let payload = {id, title, description, thumbs};
 
@@ -91,10 +75,12 @@ class ControllerAdminCategory {
     async deleteCategry(req, res, next) {
         let error = validationResult(req);
         if (!error.isEmpty()) throw new BadRequestError(error.array()[0].msg)
-        
-        let CONNECT = getCloud();
+    
         let { id } = req.body;
+        let category = await Servicecategory.getCategoryById({id});
+        if(category.products.length) throw new MethodNotAllowed();
 
+        let CONNECT = getCloud();
         let PRODUCER = configQueue.CATEGORY.DELETE.PRODUCER;
         let CONSUMER = configQueue.CATEGORY.DELETE.CONSUMER;
 
