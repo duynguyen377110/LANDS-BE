@@ -16,6 +16,11 @@ router.get("/amount",
     MiddlewareException.except(MiddlewareAuth.permission),
     MiddlewareException.except(ControllerCommonRole.getAmount));
 
+router.get("/:start/:limit",
+    MiddlewareException.except(MiddlewareVerify.adminHeader),
+    MiddlewareException.except(MiddlewareAuth.permission),
+    MiddlewareException.except(ControllerCommonRole.getRoleLimit));
+
 router.get("/:id",
     MiddlewareException.except(MiddlewareVerify.adminHeader),
     MiddlewareException.except(MiddlewareAuth.permission),

@@ -19,6 +19,20 @@ class ServiceQueryUser {
     }
 
     /**
+     * GET USER WITH QUANTITY
+     * @param {*} start 
+     * @param {*} limit 
+     * @returns 
+     */
+    async getUserLimit(start = 0, limit = 100) {
+        try {
+            return await ModelUser.find({}).skip(start).limit(limit).lean();
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
      * GET ALL USER
      * @returns 
      */
