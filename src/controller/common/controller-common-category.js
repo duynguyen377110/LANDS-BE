@@ -19,6 +19,19 @@ class ControllerCategory {
     }
 
     /**
+     * GET CATEGORY WITH QUANTITY
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getCategoryLimit(req, res, next) {
+        let { start, limit } = req.params;
+        let categories = await Servicecategory.getCategoryLimit(start, limit);
+        return new Ok().response(res, {categories});
+    }
+
+    /**
      * GET ALL CATEGORY
      * @param {*} req 
      * @param {*} res 
