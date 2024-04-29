@@ -22,6 +22,20 @@ class ServiceCategory {
     }
 
     /**
+     * GET CATEGORY WITH QUANTITY
+     * @param {*} start 
+     * @param {*} limit 
+     * @returns 
+     */
+    async getCategoryLimit(start = 0, limit = 100) {
+        try {
+            return await ModelCategory.find({}).skip(start).limit(limit).lean();
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
      * GET ALL CATEGORY
      * @returns 
      */
