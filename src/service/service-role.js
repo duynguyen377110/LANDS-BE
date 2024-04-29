@@ -32,6 +32,20 @@ class ServiceQueryRole {
     }
 
     /**
+     * GET ROLE WITH QUANTITY
+     * @param {*} start 
+     * @param {*} limit 
+     * @returns 
+     */
+    async getRoleLimit(start = 0, limit = 100) {
+        try {
+            return await ModelRole.find({}).skip(start).limit(limit).lean();
+        } catch (error) {
+            throw new InternalServerError(error.message);
+        }
+    }
+
+    /**
      * GET ALL ROLE BY ID
      * @param {*} infor 
      * @returns 

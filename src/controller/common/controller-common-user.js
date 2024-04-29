@@ -19,6 +19,19 @@ class ControllerCommonUser {
     }
 
     /**
+     * GET USER WITH QUANTITY
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     * @returns 
+     */
+    async getUserLimit(req, res, next) {
+        let { start, limit } = req.params;
+        let users = await ServiceQueryUser.getUserLimit(start, limit);
+        return new Ok().response(res, {users});
+    }
+
+    /**
      * GET ALL ROLE
      * @param {*} req 
      * @param {*} res 
